@@ -1,21 +1,21 @@
 // Prefix
 let p = ys.prefix(2)
 
-func take<S : Sequence>(_ count: Int, source: S) -> AnyIterator<S.Iterator.Element> {
-    var i = 0
-    var g = source.makeIterator()
-    
-    return AnyIterator {
-        defer { i += 1 }
-        return (i < count) ? g.next() : .none
-    }
-}
-
-let pt = (take(2, source: ys))
+//func take<S : Sequence>(_ count: Int, source: S) -> AnyIterator<S.Iterator.Element> {
+//    var i = 0
+//    var g = source.makeIterator()
+//    
+//    return AnyIterator {
+//        defer { i += 1 }
+//        return (i < count) ? g.next() : .none
+//    }
+//}
+//
+//let pt = (take(2, source: ys))
 
 extension Sequence {
     
-    public typealias _EnumeratedIterator = (count: Int, iterator: Iterator)
+//    public typealias _EnumeratedIterator = (count: Int, iterator: Iterator)
     
     public func _prefix(_ maxLength: Int) -> UnfoldSequence<Iterator.Element, _EnumeratedIterator> {
         return sequence(state: (maxLength, makeIterator()), next: {

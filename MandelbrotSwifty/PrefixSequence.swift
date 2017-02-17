@@ -27,7 +27,7 @@ extension Sequence {
     
     public func __prefix(_ maxLength: Int) -> UnfoldSequence<Iterator.Element, _EnumeratedIterator> {
         func countDownNext(state: inout _EnumeratedIterator) -> Iterator.Element? {
-            defer { state.count -= 1 }
+            defer { state.count = state.count &- 1 }
             return (state.count > 0) ? state.iterator.next() : nil
         }
         return sequence(state: (maxLength, makeIterator()), next: countDownNext)

@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9809A57C1E56F1F10082AC10 /* EnumeratedSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9809A57B1E56F1F10082AC10 /* EnumeratedSequence.swift */; };
 		984030B51E564C52004711F4 /* PrefixSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984030B41E564C52004711F4 /* PrefixSequence.swift */; };
 		989285DE1E55EF38008C015B /* Zip2Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989285DD1E55EF38008C015B /* Zip2Sequence.swift */; };
 		98A458AA1E56EAA10099C714 /* PrefixWhile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A458A91E56EAA10099C714 /* PrefixWhile.swift */; };
-		98B739DE1E5526BA00A26726 /* EnumeratedSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B739DD1E5526BA00A26726 /* EnumeratedSequence.swift */; };
 		98B739E01E55EE8B00A26726 /* testInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B739DF1E55EE8B00A26726 /* testInputs.swift */; };
 		98E51AF31E56593F00EFAA61 /* DropFirstSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E51AF21E56593F00EFAA61 /* DropFirstSequence.swift */; };
 		98F2384A1E3F35FA00F006EB /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F238491E3F35FA00F006EB /* main.swift */; };
@@ -29,14 +29,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9809A5771E56F1AA0082AC10 /* Core Sequences Aliased.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = "Core Sequences Aliased.playground"; path = "MandelbrotSwifty/Core Sequences Aliased.playground"; sourceTree = "<group>"; };
+		9809A5781E56F1AA0082AC10 /* Core Sequences.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = "Core Sequences.playground"; path = "MandelbrotSwifty/Core Sequences.playground"; sourceTree = "<group>"; };
+		9809A5791E56F1AA0082AC10 /* Mandelbrot Hashell-like.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = "Mandelbrot Hashell-like.playground"; path = "MandelbrotSwifty/Mandelbrot Hashell-like.playground"; sourceTree = "<group>"; };
+		9809A57A1E56F1AA0082AC10 /* Mandelbrot Swifty3.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = "Mandelbrot Swifty3.playground"; path = "MandelbrotSwifty/Mandelbrot Swifty3.playground"; sourceTree = "<group>"; };
+		9809A57B1E56F1F10082AC10 /* EnumeratedSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnumeratedSequence.swift; sourceTree = "<group>"; };
 		984030B41E564C52004711F4 /* PrefixSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefixSequence.swift; sourceTree = "<group>"; };
 		989285DD1E55EF38008C015B /* Zip2Sequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Zip2Sequence.swift; sourceTree = "<group>"; };
-		989E4B021E54E80200C93775 /* Core Sequences.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Core Sequences.playground"; sourceTree = "<group>"; };
-		989E4B031E54E80200C93775 /* Mandelbrot Hashell-like.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Mandelbrot Hashell-like.playground"; sourceTree = "<group>"; };
-		989E4B041E54E80200C93775 /* Mandelbrot Swifty3.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Mandelbrot Swifty3.playground"; sourceTree = "<group>"; };
-		989E4B051E54E85A00C93775 /* Core Sequences Aliased.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Core Sequences Aliased.playground"; sourceTree = "<group>"; };
 		98A458A91E56EAA10099C714 /* PrefixWhile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefixWhile.swift; sourceTree = "<group>"; };
-		98B739DD1E5526BA00A26726 /* EnumeratedSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnumeratedSequence.swift; path = ../EnumeratedSequence.swift; sourceTree = "<group>"; };
 		98B739DF1E55EE8B00A26726 /* testInputs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = testInputs.swift; sourceTree = "<group>"; };
 		98E51AF21E56593F00EFAA61 /* DropFirstSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropFirstSequence.swift; sourceTree = "<group>"; };
 		98F238461E3F35FA00F006EB /* MandelbrotSwifty */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MandelbrotSwifty; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,6 +57,10 @@
 		98F2383D1E3F35FA00F006EB = {
 			isa = PBXGroup;
 			children = (
+				9809A5771E56F1AA0082AC10 /* Core Sequences Aliased.playground */,
+				9809A5781E56F1AA0082AC10 /* Core Sequences.playground */,
+				9809A5791E56F1AA0082AC10 /* Mandelbrot Hashell-like.playground */,
+				9809A57A1E56F1AA0082AC10 /* Mandelbrot Swifty3.playground */,
 				98F238481E3F35FA00F006EB /* MandelbrotSwifty */,
 				98F238471E3F35FA00F006EB /* Products */,
 			);
@@ -73,13 +77,9 @@
 		98F238481E3F35FA00F006EB /* MandelbrotSwifty */ = {
 			isa = PBXGroup;
 			children = (
-				98B739DD1E5526BA00A26726 /* EnumeratedSequence.swift */,
+				9809A57B1E56F1F10082AC10 /* EnumeratedSequence.swift */,
 				989285DD1E55EF38008C015B /* Zip2Sequence.swift */,
 				984030B41E564C52004711F4 /* PrefixSequence.swift */,
-				989E4B051E54E85A00C93775 /* Core Sequences Aliased.playground */,
-				989E4B021E54E80200C93775 /* Core Sequences.playground */,
-				989E4B031E54E80200C93775 /* Mandelbrot Hashell-like.playground */,
-				989E4B041E54E80200C93775 /* Mandelbrot Swifty3.playground */,
 				98F238491E3F35FA00F006EB /* main.swift */,
 				98B739DF1E55EE8B00A26726 /* testInputs.swift */,
 				98E51AF21E56593F00EFAA61 /* DropFirstSequence.swift */,
@@ -148,10 +148,10 @@
 			files = (
 				98E51AF31E56593F00EFAA61 /* DropFirstSequence.swift in Sources */,
 				98A458AA1E56EAA10099C714 /* PrefixWhile.swift in Sources */,
-				98B739DE1E5526BA00A26726 /* EnumeratedSequence.swift in Sources */,
 				98F2384A1E3F35FA00F006EB /* main.swift in Sources */,
 				98B739E01E55EE8B00A26726 /* testInputs.swift in Sources */,
 				989285DE1E55EF38008C015B /* Zip2Sequence.swift in Sources */,
+				9809A57C1E56F1F10082AC10 /* EnumeratedSequence.swift in Sources */,
 				984030B51E564C52004711F4 /* PrefixSequence.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

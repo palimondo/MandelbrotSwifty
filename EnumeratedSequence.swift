@@ -19,7 +19,7 @@ extension Sequence {
         UnfoldSequence<_EnumeratedElement, _EnumeratedIterator> {
             func enumerateNext(state: inout _EnumeratedIterator) -> _EnumeratedElement? {
                 guard let element = state.iterator.next() else { return nil }
-                defer { state.count += 1 }
+                defer { state.count = state.count &+ 1 }
                 return (state.count, element)
             }
             return sequence(state: (0, makeIterator()), next: enumerateNext)

@@ -2,7 +2,7 @@
 
 extension Sequence {
     
-    public typealias _EnumeratedIterator = (count: Int, iterator: Self.Iterator)
+//    public typealias _EnumeratedIterator = (count: Int, iterator: Self.Iterator)
     public typealias _EnumeratedElement = (offset: Int, element: Self.Iterator.Element)
     
     public func _enumerated () ->

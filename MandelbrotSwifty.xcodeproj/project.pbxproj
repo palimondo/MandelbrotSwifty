@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9809A57C1E56F1F10082AC10 /* EnumeratedSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9809A57B1E56F1F10082AC10 /* EnumeratedSequence.swift */; };
+		983D8CAE1E5B871400D1D249 /* DropWhile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983D8CAD1E5B871400D1D249 /* DropWhile.swift */; };
 		984030B51E564C52004711F4 /* PrefixSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984030B41E564C52004711F4 /* PrefixSequence.swift */; };
 		989285DE1E55EF38008C015B /* Zip2Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989285DD1E55EF38008C015B /* Zip2Sequence.swift */; };
 		98A458AA1E56EAA10099C714 /* PrefixWhile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A458A91E56EAA10099C714 /* PrefixWhile.swift */; };
@@ -34,6 +35,7 @@
 		9809A57E1E56F2770082AC10 /* Core Sequences.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Core Sequences.playground"; sourceTree = "<group>"; };
 		9809A57F1E56F2770082AC10 /* Mandelbrot Hashell-like.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Mandelbrot Hashell-like.playground"; sourceTree = "<group>"; };
 		9809A5801E56F2770082AC10 /* Mandelbrot Swifty3.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Mandelbrot Swifty3.playground"; sourceTree = "<group>"; };
+		983D8CAD1E5B871400D1D249 /* DropWhile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropWhile.swift; sourceTree = "<group>"; };
 		984030B41E564C52004711F4 /* PrefixSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefixSequence.swift; sourceTree = "<group>"; };
 		989285DD1E55EF38008C015B /* Zip2Sequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Zip2Sequence.swift; sourceTree = "<group>"; };
 		98A458A91E56EAA10099C714 /* PrefixWhile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefixWhile.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 				98B739DF1E55EE8B00A26726 /* testInputs.swift */,
 				98E51AF21E56593F00EFAA61 /* DropFirstSequence.swift */,
 				98A458A91E56EAA10099C714 /* PrefixWhile.swift */,
+				983D8CAD1E5B871400D1D249 /* DropWhile.swift */,
 			);
 			path = MandelbrotSwifty;
 			sourceTree = "<group>";
@@ -146,6 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				983D8CAE1E5B871400D1D249 /* DropWhile.swift in Sources */,
 				98E51AF31E56593F00EFAA61 /* DropFirstSequence.swift in Sources */,
 				98A458AA1E56EAA10099C714 /* PrefixWhile.swift in Sources */,
 				98F2384A1E3F35FA00F006EB /* main.swift in Sources */,

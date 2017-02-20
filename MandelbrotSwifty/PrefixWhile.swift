@@ -10,7 +10,6 @@ public struct PredicatedIterator<I: IteratorProtocol> {
 }
 
 extension Sequence {
-    // Not to spec: missing throwing, noescape
     public func _prefix (
         while predicate: @escaping (Self.Iterator.Element) -> Bool) ->
         UnfoldSequence<Self.Iterator.Element, Self.Iterator> {

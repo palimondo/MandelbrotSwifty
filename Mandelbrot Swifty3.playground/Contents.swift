@@ -1,14 +1,5 @@
 import CoreGraphics
 
-func curry<A, B, R>(_ f: @escaping (A, B) -> R) -> (A) -> (B) -> R {
-    return { a in { b in f(a, b) } }
-}
-
-infix operator >>> : MultiplicationPrecedence // associativity: left
-func >>> <A, B, C>(f: @escaping (B) -> C, g: @escaping (A) -> B) -> (A) -> C {
-    return { x in f(g(x)) }
-}
-
 public struct ComplexNumber : CustomStringConvertible {
     let Re: Double
     let Im: Double
@@ -20,7 +11,7 @@ public struct ComplexNumber : CustomStringConvertible {
     func normal() -> Double { return Re * Re + Im * Im }
     public var description: String {return "\(Re) \(Im)i" }
 }
-/*
+
 public typealias ℂ = ComplexNumber
 func + (x: ℂ, y: ℂ) -> ℂ {
     let ((a, b), (c, d)) = ((x.Re, x.Im), (y.Re, y.Im))
@@ -30,7 +21,8 @@ func * (x: ℂ, y: ℂ) -> ℂ {
     let ((a, b), (c, d)) = ((x.Re, x.Im), (y.Re, y.Im))
     return ℂ(a*c - b*d, i: b*c + a*d)
  }
- */
+ 
+/*
 public typealias ℂ = CGPoint
 func + (x: ℂ, y: ℂ) -> ℂ {
     let ((a, b), (c, d)) = ((x.x, x.y), (y.x, y.y))
@@ -42,10 +34,11 @@ func * (x: ℂ, y: ℂ) -> ℂ {
 }
 extension CGPoint : CustomStringConvertible {
     init(_ real: Double){ self.init(x: real, y:0.0) }
+    init(_ real: Double, i imaginary: Double) { self.init(x:real, y:imaginary) }
     func normal() -> Double { return Double(x * x) + Double(y * y) }
     public var description: String {return "\(x) \(y)i" }
 }
-
+*/
 
 extension Sequence {
     // Not to spec: missing throwing, noescape
@@ -60,23 +53,8 @@ extension Sequence {
     }
 }
 
-let b = CGPoint(x:2.0, y:2.5)
-
-let quadrat: (ℂ, ℂ) -> ℂ = { c, z in z*z + c }
-let C = ℂ(x:0.5, y:0.5)
-let z0 = ℂ(0)
-let z1 = quadrat(C, z0)
-let z2 = quadrat(C, z1)
-let z3 = quadrat(C, z2)
-let z4 = quadrat(C, z3)
-
 func quad(c: ℂ, z: ℂ) -> ℂ { return z*z + c}
-let orbit: (ℂ) -> AnyIterator<ℂ> = { c in AnyIterator(sequence(first: ℂ(0), next: curry(quad)(c)))}
-var q: ℂ
-for z in orbit(C).prefix(10) {
-    q = z
-}
-[orbit(C).prefix(10).map({$0})]
+let orbit = { c in AnyIterator(sequence(first: ℂ(0), next: {z in  z*z + c}))}
 
 let maxIter = 15 // asciiGradient.lenght - 1
 let _iterations: (AnyIterator<ℂ>) -> Int = { seq in
@@ -95,11 +73,12 @@ let sideY = side(h, -2, 2)
 let asciiGradient = Array(" ⬜️1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣7️⃣8️⃣9️⃣🔟🔢#️⃣*️⃣⬛️".characters)
 let toAscii: (Int) -> Character = { n in asciiGradient[n]}
 
-let grid = sideY.map({ y in sideX.map({ x in ℂ(x:x, y:y) }) })
+let grid = sideY.map({ y in sideX.map({ x in ℂ(x, i:y) }) })
 let art = grid.map {
-    String($0.map(toAscii >>> _iterations >>> orbit))
+    String($0.map({c in toAscii(_iterations(orbit(c)))}))
     }.joined(separator: "\n")
 art
+print(art)
 /*
 let art = grid.map {
     $0.map(toAscii >>> iterations >>> orbit)

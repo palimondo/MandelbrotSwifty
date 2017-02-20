@@ -357,6 +357,12 @@ extension Sequence {
         }
         return lastOne
     }
+    
+    func _last() -> Iterator.Element? {
+        var i = makeIterator()
+        guard let first = i.next() else {return nil}
+        return reduce(first, {$1})
+    }
 }
 
 func lastEnumeratedOrbiter(c: ℂ) -> Character {
@@ -388,6 +394,26 @@ func lastEnumeratedOrbitSequence4(c: ℂ)-> Character {
     return toAscii(sequence(first: ℂ(0), next: {z in z * z + c}).enumerated().prefix2(while: {$1.normal() < 2 && $0 < maxIter}).last()!.0 + 1)
 }
 
+func lastEnumeratedOrbitSequence4Length(c: ℂ)-> Character {
+    return toAscii(length(sequence(first: ℂ(0), next: {z in z * z + c}).enumerated().prefix2(while: {$1.normal() < 2 && $0 < maxIter})))
+}
+
+func lastEnumeratedOrbitSequence5(c: ℂ)-> Character {
+    return toAscii(sequence(first: ℂ(0), next: {z in z * z + c}).__enumerated().__prefix(while: {$1.normal() < 2 && $0 < maxIter}).last()!.0 + 1)
+}
+
+func lastEnumeratedOrbitSequence6(c: ℂ)-> Character {
+    return toAscii(sequence(first: ℂ(0), next: {z in z * z + c}).__prefix(while: {$0.normal() < 2}).__prefix(maxIter).__enumerated().last()!.0 + 1)
+}
+
+func lastEnumeratedOrbitSequence7(c: ℂ)-> Character {
+    return toAscii(sequence(first: ℂ(0), next: {z in z * z + c})._enumerated()._prefix(while: {$1.normal() < 2 && $0 < maxIter}).last()!.0 + 1)
+}
+
+func lastEnumeratedOrbitSequence8(c: ℂ)-> Character {
+    return toAscii(sequence(first: ℂ(0), next: {z in z * z + c})._prefix(while: {$0.normal() < 2})._prefix(maxIter)._enumerated().last()!.0 + 1)
+}
+
 func maxEnumeratedOrbiter(c: ℂ) -> Character {
     return toAscii(MandelbrotOrbiter(c).prefix(maxIter).enumerated().max(by: {$0.0 < $1.0})!.offset + 1)
 }
@@ -414,6 +440,10 @@ func orbitEnumeratorLast(c: ℂ) -> Character {
     return toAscii(MandelbrotOrbitEnumerator(c).last()!)
 }
 
+func orbitEnumerator_Last(c: ℂ) -> Character {
+    return toAscii(MandelbrotOrbitEnumerator(c)._last()!)
+}
+
 let renderers = [
     ("imperative                      ", imperative),
     ("nestedCall                      ", nestedCall),
@@ -422,6 +452,11 @@ let renderers = [
     ("lastEnumeratedOrbitSequence2    ", lastEnumeratedOrbitSequence2),
     ("lastEnumeratedOrbitSequence3    ", lastEnumeratedOrbitSequence3),
     ("lastEnumeratedOrbitSequence4    ", lastEnumeratedOrbitSequence4),
+//    ("lastEnumeratedOrbitSequence4Len ", lastEnumeratedOrbitSequence4Length),
+    ("lastEnumeratedOrbitSequence5    ", lastEnumeratedOrbitSequence5),
+//    ("lastEnumeratedOrbitSequence6    ", lastEnumeratedOrbitSequence6),
+    ("lastEnumeratedOrbitSequence7    ", lastEnumeratedOrbitSequence7),
+//    ("lastEnumeratedOrbitSequence8    ", lastEnumeratedOrbitSequence8),
     ("reduceOrbiter                   ", reduceOrbiter),
     ("orbiterLength                   ", orbiterLength),
     ("lastEnumeratedOrbiter           ", lastEnumeratedOrbiter),
@@ -431,6 +466,7 @@ let renderers = [
     ("lastOrbitEnumerator             ", lastOrbitEnumerator),
 //    ("last1OrbitEnumerator            ", last1OrbitEnumerator),
     ("orbitEnumeratorLast             ", orbitEnumeratorLast),
+    ("orbitEnumerator_Last            ", orbitEnumerator_Last),
 ]
 
 //let renderers = [

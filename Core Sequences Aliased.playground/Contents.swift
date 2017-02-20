@@ -5,54 +5,6 @@ let ys = stride(from: 4, through: 1, by: -1)
 let zs: Array<Int> = []
 Array(ys)
 
-// Prefix While (PrefixWhileSequence)
-
-extension Sequence {
-    // Not to spec: missing throwing, noescape
-    public func _prefix (
-        while predicate: @escaping (Self.Iterator.Element) -> Bool) ->
-        UnfoldSequence<Self.Iterator.Element, Self.Iterator> {
-            return sequence(state: makeIterator(), next: {
-                (myState: inout Iterator) -> Iterator.Element? in
-                guard let next = myState.next() else { return nil }
-                return predicate(next) ? next : nil
-            })
-    }
-
-    public typealias Predicate = (Self.Iterator.Element) -> Bool
-    public typealias PredicatedIterator = (predicate: Predicate, iterator: Self.Iterator)
-    
-//    public func __prefix (while predicate: @escaping Predicate) ->
-//        UnfoldSequence<Self.Iterator.Element, PredicatedIterator> {
-//            func nextMatch(state: inout PredicatedIterator) -> Iterator.Element? {
-//                guard
-//                    let e = state.iterator.next()
-//                    else { return nil }
-//                return state.predicate(e) ? e : nil
-//            }
-//            return sequence(state: (predicate, makeIterator()), next: nextMatch)
-//    }
-//
-//    internal func nextMatch(state: inout PredicatedIterator) -> Iterator.Element? {
-//        guard
-//            let e = state.iterator.next()
-//            else { return nil }
-//        return state.predicate(e) ? e : nil
-//    }
-//
-//    
-//    public func ___prefix (while predicate: @escaping Predicate) ->
-//        UnfoldSequence<Self.Iterator.Element, PredicatedIterator> {
-//            return sequence(state: (predicate, makeIterator()), next: nextMatch)
-//    }
-}
-
-let pw = Array(ys._prefix(while: {$0 > 2}))
-pw
-//let ppw = Array(ys.__prefix(while: {$0 > 2}))
-//ppw
-//let pppw = Array(ys.___prefix(while: {$0 > 2}))
-//pppw
 
 // Drop First
 /*
@@ -92,7 +44,8 @@ Array(ys.__dropFirst(2))
 
 // Drop While
 
-
+let dw = ys.drop(while: {$0 > 2})
+dw
 
 /*
  // from map<T> -- could be useful for ring buffer?
@@ -235,4 +188,59 @@ Array(ys.__dropFirst(2))
  Array(zs.__prefix(2))
  */
 
+/*
+ // Prefix While (PrefixWhileSequence)
+
+ public struct PredicatedIterator<I: IteratorProtocol> {
+ var predicate: (I.Element) -> Bool
+ var iterator: I
+ init(_ _predicate: @escaping (I.Element) -> Bool, _ _iterator: I) {
+ predicate = _predicate
+ iterator = _iterator
+ }
+ }
+ 
+ extension Sequence {
+ public func _prefix (
+ while predicate: @escaping (Self.Iterator.Element) -> Bool) ->
+ UnfoldSequence<Self.Iterator.Element, Self.Iterator> {
+ return sequence(state: makeIterator(), next: {
+ (myState: inout Iterator) -> Iterator.Element? in
+ guard let next = myState.next() else { return nil }
+ return predicate(next) ? next : nil
+ })
+ }
+ 
+ 
+ 
+ public typealias Predicate = (Iterator.Element) -> Bool
+ //    public typealias PredicatedIterator = (predicate: Predicate, iterator: Self.Iterator)
+ 
+ public func __prefix (while predicate: @escaping Predicate) ->
+ UnfoldSequence<Self.Iterator.Element, PredicatedIterator<Iterator>> {
+ func nextMatch(state: inout PredicatedIterator<Iterator>) -> Iterator.Element? {
+ guard let e = state.iterator.next() else { return nil }
+ return state.predicate(e) ? e : nil
+ }
+ return sequence(state: PredicatedIterator(predicate, makeIterator()), next: nextMatch)
+ }
+ 
+ internal func nextMatch(state: inout PredicatedIterator<Iterator>) -> Iterator.Element? {
+ guard let e = state.iterator.next() else { return nil }
+ return state.predicate(e) ? e : nil
+ }
+ 
+ public func ___prefix (while predicate: @escaping Predicate) ->
+ UnfoldSequence<Self.Iterator.Element, PredicatedIterator<Iterator>> {
+ return sequence(state: PredicatedIterator(predicate, makeIterator()), next: nextMatch)
+ }
+ }
+ 
+ let pw = Array(ys._prefix(while: {$0 > 2}))
+ pw
+ //let ppw = Array(ys.__prefix(while: {$0 > 2}))
+ //ppw
+ //let pppw = Array(ys.___prefix(while: {$0 > 2}))
+ //pppw
+ */
 

@@ -8,168 +8,6 @@
 
 import Cocoa
 
-//===--- Iterator & Sequence ----------------------------------------------===//
-
-/// An iterator over the initial elements traversed by a base iterator that
-/// satisfy a given predicate.
-///
-/// This is the associated iterator for the `LazyPrefixWhileSequence`,
-/// `LazyPrefixWhileCollection`, and `LazyPrefixWhileBidirectionalCollection`
-/// types.
-public struct LazyPrefixWhileIterator<Base : IteratorProtocol> :
-IteratorProtocol, Sequence {
-    
-    public mutating func next() -> Base.Element? {
-        // Return elements from the base iterator until one fails the predicate.
-        if !_predicateHasFailed, let nextElement = _base.next() {
-            if _predicate(nextElement) {
-                return nextElement
-            } else {
-                _predicateHasFailed = true
-            }
-        }
-        return nil
-    }
-    
-    internal init(_base: Base, predicate: @escaping (Base.Element) -> Bool) {
-        self._base = _base
-        self._predicate = predicate
-    }
-    
-    internal var _predicateHasFailed = false
-    internal var _base: Base
-    internal let _predicate: (Base.Element) -> Bool
-}
-
-/// A sequence whose elements consist of the initial consecutive elements of
-/// some base sequence that satisfy a given predicate.
-public struct LazyPrefixWhileSequence<Base : Sequence> : LazySequenceProtocol {
-    
-    public typealias Elements = LazyPrefixWhileSequence
-    
-    public func makeIterator() -> LazyPrefixWhileIterator<Base.Iterator> {
-        return LazyPrefixWhileIterator(
-            _base: _base.makeIterator(), predicate: _predicate)
-    }
-    
-    internal init(_base: Base, predicate: @escaping (Base.Iterator.Element) -> Bool) {
-        self._base = _base
-        self._predicate = predicate
-    }
-    
-    internal var _base: Base
-    internal let _predicate: (Base.Iterator.Element) -> Bool
-}
-
-//extension LazySequenceProtocol {
-extension Sequence {
-    /// Returns a lazy sequence of the initial consecutive elements that satisfy
-    /// `predicate`.
-    ///
-    /// - Parameter predicate: A closure that takes an element of the sequence as
-    ///   its argument and returns `true` if the element should be included or
-    ///   `false` otherwise. Once `predicate` returns `false` it will not be
-    ///   called again.
-    public func prefix(
-        while predicate: @escaping (Self.Iterator.Element) -> Bool
-        ) -> LazyPrefixWhileSequence<Self> {
-        return LazyPrefixWhileSequence(_base: self, predicate: predicate)
-    }
-}
-
-func takeWhile<S : Sequence>(_ includeElement: @escaping (S.Iterator.Element) -> Bool, source: S) ->  AnyIterator<S.Iterator.Element> {
-    var takeMore = true
-    var g = source.makeIterator()
-    
-    return AnyIterator {
-        if takeMore {
-            if let e = g.next() {
-                takeMore = includeElement(e)
-                return takeMore ? e : .none
-            }
-        }
-        return .none
-    }
-}
-
-func take<S : Sequence>(_ count: Int, source: S) -> AnyIterator<S.Iterator.Element> {
-    var i = 0
-    var g = source.makeIterator()
-    
-    return AnyIterator {
-        defer {i += 1;}
-        return (i < count) ? g.next() : .none
-    }
-}
-
-@_specialize(Int)
-func iterate<A>(_ f: @escaping (A) -> A, x0: A) -> AnyIterator<A> {
-    var x = x0
-    return AnyIterator {
-        defer {x = f(x)}
-        return x
-    }
-}
-
-func curry<A,B,R>(_ f: @escaping (A,B) -> R) -> (A) -> (B) -> R {
-    return { a in { b in f(a,b) } }
-}
-
-func length<S: Sequence>(_ sequence: S) -> Int {
-    return sequence.reduce(0, {i, _ in i + 1})
-}
-
-infix operator >>> : MultiplicationPrecedence // associativity: left
-func >>> <A, B, C>(f: @escaping (B) -> C, g: @escaping (A) -> B) -> (A) -> C {
-    return { x in f(g(x)) }
-}
-
-struct ComplexNumber {
-    let Re: Double
-    let Im: Double
-    
-    init() { self.Re = 0.0; self.Im = 0.0}
-    init(_ real: Double) { self.Re = real; self.Im = 0.0 }
-    init(i imaginary: Double) { self.Re = 0.0; self.Im = imaginary }
-    init(_ real: Double, i imaginary: Double) {
-        self.Re = real
-        self.Im = imaginary
-    }
-    
-    func normal() -> Double {
-        return Re * Re + Im * Im
-    }
-    
-    func asTuple() -> (real:Double, imaginary:Double) {
-        return (Re, Im)
-    }
-}
-
-typealias ℂ = ComplexNumber
-
-func + (x: ℂ, y: ℂ) -> ℂ {
-    let ((a, b), (c, d)) = ((x.Re, x.Im), (y.Re, y.Im))
-    return ℂ(a + c, i: b + d)
-}
-func * (x: ℂ, y: ℂ) -> ℂ {
-    let ((a, b), (c, d)) = ((x.Re, x.Im), (y.Re, y.Im))
-    return ℂ(a*c - b*d, i:b*c + a*d)
-}
-
-extension Sequence {
-    // Not to spec: missing throwing, noescape
-    public func prefix2(
-        while predicate: @escaping (Self.Iterator.Element) -> Bool) ->
-        UnfoldSequence<Self.Iterator.Element, Self.Iterator> {
-            return sequence(state: makeIterator(), next: {
-                (myState: inout Iterator) -> Iterator.Element? in
-                guard let next = myState.next() else { return nil }
-                return predicate(next) ? next : nil
-            })
-    }
-}
-
-
 let quadrat: (ℂ, ℂ) -> ℂ = {c, z in z*z + c}
 
 let orbit: (ℂ) -> AnyIterator<ℂ> = {c in iterate(curry(quadrat)(c), x0: ℂ(0))}
@@ -238,6 +76,20 @@ func orbitCounter(_ c: ℂ) -> Int {
     return i
 }
 
+func _orbitCounter(_ c: ℂ) -> Int {
+    var i = 0
+    let orbital = sequence(first: ℂ(0), next: {z in
+        i = i+1
+        if (z.normal() < 2 && i < maxIter) {
+            return z * z + c
+        } else {
+            return nil
+        }
+    })
+    return orbital._length()
+}
+
+
 func orbitCounter2(_ c: ℂ) -> Int {
     var last: (Int, ℂ) = (0, ℂ(0))
     for x in sequence(first: ℂ(0), next: {z in z * z + c}).prefix(while: {$0.normal() < 2}).prefix(maxIter).enumerated() {
@@ -246,19 +98,19 @@ func orbitCounter2(_ c: ℂ) -> Int {
     return last.0 + 1
 }
 
+func orbital(_ c: ℂ) -> UnfoldFirstSequence<ℂ>{
+    return sequence(first: ℂ(0), next: {z in
+        guard z.normal() < 2 else { return nil }
+        return z * z + c
+    })
+}
+
 func orbitCounter3(_ c: ℂ) -> Int {
-    var i = 0
-    let orbital = sequence(first: ℂ(0), next: {z in
-        if (z.normal() < 2) {
-            return z * z + c
-        } else {
-            return nil
-        }
-    }).prefix(maxIter).enumerated()
-    for (x, _) in orbital {
-        i = x
-    }
-    return i + 1
+//    let orbital = sequence(first: ℂ(0), next: {z in
+//        guard z.normal() < 2 else { return nil }
+//        return z * z + c
+//    })._prefix(maxIter)
+    return orbital(c)._prefix(maxIter)._length()
 }
 
 
@@ -331,6 +183,9 @@ func timeLoops(_ renderers: [(String, (ℂ) -> Character)]) {
 func nestedCall(c: ℂ) -> Character {
     return toAscii(orbitCounter(c))
 }
+func _nestedCall(c: ℂ) -> Character {
+    return toAscii(_orbitCounter(c))
+}
 func nestedCall2(c: ℂ) -> Character {
     return toAscii(orbitCounter2(c))
 }
@@ -343,26 +198,6 @@ func reduceOrbiter(c: ℂ) -> Character {
 }
 func orbiterLength(c: ℂ) -> Character {
         return toAscii(length(MandelbrotOrbiter(c).prefix(maxIter)))
-}
-
-extension Sequence {
-    func last() -> Iterator.Element?
-    {
-        var i = makeIterator()
-        guard var lastOne = i.next() else {
-            return nil
-        }
-        while let element = i.next() {
-            lastOne = element
-        }
-        return lastOne
-    }
-    
-    func _last() -> Iterator.Element? {
-        var i = makeIterator()
-        guard let first = i.next() else {return nil}
-        return reduce(first, {$1})
-    }
 }
 
 func lastEnumeratedOrbiter(c: ℂ) -> Character {
@@ -391,11 +226,11 @@ func lastEnumeratedOrbitSequence3(c: ℂ)-> Character {
 }
 
 func lastEnumeratedOrbitSequence4(c: ℂ)-> Character {
-    return toAscii(sequence(first: ℂ(0), next: {z in z * z + c}).enumerated().prefix2(while: {$1.normal() < 2 && $0 < maxIter}).last()!.0 + 1)
+    return toAscii(sequence(first: ℂ(0), next: {z in z * z + c}).enumerated()._prefix(while: {$1.normal() < 2 && $0 < maxIter}).last()!.0 + 1)
 }
 
 func lastEnumeratedOrbitSequence4Length(c: ℂ)-> Character {
-    return toAscii(length(sequence(first: ℂ(0), next: {z in z * z + c}).enumerated().prefix2(while: {$1.normal() < 2 && $0 < maxIter})))
+    return toAscii(length(sequence(first: ℂ(0), next: {z in z * z + c}).enumerated()._prefix(while: {$1.normal() < 2 && $0 < maxIter})))
 }
 
 func lastEnumeratedOrbitSequence5(c: ℂ)-> Character {
@@ -423,17 +258,8 @@ func last<S: Sequence>(_ sequence: S) -> S.Iterator.Element {
     return sequence.reduce(i.next()!, {$1})
 }
 
-func last1<S: Sequence>(_ sequence: S) -> S.Iterator.Element? {
-    var i = sequence.makeIterator()
-    return sequence.reduce(i.next(), {$1})
-}
-
 func lastOrbitEnumerator(c: ℂ) -> Character {
     return toAscii(last(MandelbrotOrbitEnumerator(c)))
-}
-
-func last1OrbitEnumerator(c: ℂ) -> Character {
-    return toAscii(last1(MandelbrotOrbitEnumerator(c))!)
 }
 
 func orbitEnumeratorLast(c: ℂ) -> Character {
@@ -447,7 +273,9 @@ func orbitEnumerator_Last(c: ℂ) -> Character {
 let renderers = [
     ("imperative                      ", imperative),
     ("nestedCall                      ", nestedCall),
+    ("_nestedCall                     ", _nestedCall),
     ("nestedCall2                     ", nestedCall2),
+    ("nestedCall3                     ", nestedCall3),
     ("lastEnumeratedOrbitSequence     ", lastEnumeratedOrbitSequence),
     ("lastEnumeratedOrbitSequence2    ", lastEnumeratedOrbitSequence2),
     ("lastEnumeratedOrbitSequence3    ", lastEnumeratedOrbitSequence3),

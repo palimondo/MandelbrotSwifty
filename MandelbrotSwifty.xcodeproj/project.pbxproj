@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		9809A57C1E56F1F10082AC10 /* EnumeratedSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9809A57B1E56F1F10082AC10 /* EnumeratedSequence.swift */; };
+		9834A45D1E5BB69100DA7AB5 /* ComplexNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834A45C1E5BB69100DA7AB5 /* ComplexNumber.swift */; };
+		9834A45F1E5BB6C500DA7AB5 /* LazyPrefixWhile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834A45E1E5BB6C500DA7AB5 /* LazyPrefixWhile.swift */; };
+		9834A4611E5BB71200DA7AB5 /* prelude.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834A4601E5BB71200DA7AB5 /* prelude.swift */; };
+		9834A4631E5BBA1000DA7AB5 /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834A4621E5BBA1000DA7AB5 /* util.swift */; };
 		983D8CAE1E5B871400D1D249 /* DropWhile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983D8CAD1E5B871400D1D249 /* DropWhile.swift */; };
 		984030B51E564C52004711F4 /* PrefixSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984030B41E564C52004711F4 /* PrefixSequence.swift */; };
 		989285DE1E55EF38008C015B /* Zip2Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989285DD1E55EF38008C015B /* Zip2Sequence.swift */; };
@@ -35,6 +39,10 @@
 		9809A57E1E56F2770082AC10 /* Core Sequences.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Core Sequences.playground"; sourceTree = "<group>"; };
 		9809A57F1E56F2770082AC10 /* Mandelbrot Hashell-like.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Mandelbrot Hashell-like.playground"; sourceTree = "<group>"; };
 		9809A5801E56F2770082AC10 /* Mandelbrot Swifty3.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Mandelbrot Swifty3.playground"; sourceTree = "<group>"; };
+		9834A45C1E5BB69100DA7AB5 /* ComplexNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplexNumber.swift; sourceTree = "<group>"; };
+		9834A45E1E5BB6C500DA7AB5 /* LazyPrefixWhile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyPrefixWhile.swift; sourceTree = "<group>"; };
+		9834A4601E5BB71200DA7AB5 /* prelude.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = prelude.swift; sourceTree = "<group>"; };
+		9834A4621E5BBA1000DA7AB5 /* util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = util.swift; sourceTree = "<group>"; };
 		983D8CAD1E5B871400D1D249 /* DropWhile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropWhile.swift; sourceTree = "<group>"; };
 		984030B41E564C52004711F4 /* PrefixSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefixSequence.swift; sourceTree = "<group>"; };
 		989285DD1E55EF38008C015B /* Zip2Sequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Zip2Sequence.swift; sourceTree = "<group>"; };
@@ -79,14 +87,18 @@
 		98F238481E3F35FA00F006EB /* MandelbrotSwifty */ = {
 			isa = PBXGroup;
 			children = (
-				9809A57B1E56F1F10082AC10 /* EnumeratedSequence.swift */,
-				989285DD1E55EF38008C015B /* Zip2Sequence.swift */,
-				984030B41E564C52004711F4 /* PrefixSequence.swift */,
 				98F238491E3F35FA00F006EB /* main.swift */,
+				9834A4621E5BBA1000DA7AB5 /* util.swift */,
 				98B739DF1E55EE8B00A26726 /* testInputs.swift */,
 				98E51AF21E56593F00EFAA61 /* DropFirstSequence.swift */,
-				98A458A91E56EAA10099C714 /* PrefixWhile.swift */,
 				983D8CAD1E5B871400D1D249 /* DropWhile.swift */,
+				9809A57B1E56F1F10082AC10 /* EnumeratedSequence.swift */,
+				984030B41E564C52004711F4 /* PrefixSequence.swift */,
+				98A458A91E56EAA10099C714 /* PrefixWhile.swift */,
+				989285DD1E55EF38008C015B /* Zip2Sequence.swift */,
+				9834A45C1E5BB69100DA7AB5 /* ComplexNumber.swift */,
+				9834A45E1E5BB6C500DA7AB5 /* LazyPrefixWhile.swift */,
+				9834A4601E5BB71200DA7AB5 /* prelude.swift */,
 			);
 			path = MandelbrotSwifty;
 			sourceTree = "<group>";
@@ -150,6 +162,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				983D8CAE1E5B871400D1D249 /* DropWhile.swift in Sources */,
+				9834A4611E5BB71200DA7AB5 /* prelude.swift in Sources */,
+				9834A45D1E5BB69100DA7AB5 /* ComplexNumber.swift in Sources */,
+				9834A4631E5BBA1000DA7AB5 /* util.swift in Sources */,
 				98E51AF31E56593F00EFAA61 /* DropFirstSequence.swift in Sources */,
 				98A458AA1E56EAA10099C714 /* PrefixWhile.swift in Sources */,
 				98F2384A1E3F35FA00F006EB /* main.swift in Sources */,
@@ -157,6 +172,7 @@
 				989285DE1E55EF38008C015B /* Zip2Sequence.swift in Sources */,
 				9809A57C1E56F1F10082AC10 /* EnumeratedSequence.swift in Sources */,
 				984030B51E564C52004711F4 /* PrefixSequence.swift in Sources */,
+				9834A45F1E5BB6C500DA7AB5 /* LazyPrefixWhile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +255,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -248,6 +265,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};

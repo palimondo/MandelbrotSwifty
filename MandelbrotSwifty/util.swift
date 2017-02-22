@@ -21,3 +21,9 @@ extension Sequence {
         return reduce(first, {$1})
     }
 }
+
+func last<S: Sequence>(_ sequence: S) -> S.Iterator.Element {
+    var i = sequence.makeIterator()
+    return sequence.reduce(i.next()!, {$1})
+}
+

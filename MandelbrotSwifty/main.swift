@@ -1,118 +1,6 @@
-//
-//  main.swift
-//  MandelbrotSwifty
-//
-//  Created by Pavol Vaskovic on 30.01.17.
-//  Copyright © 2017 Pavol Vaskovic. All rights reserved.
-//
-
 import Cocoa
 
-let quadrat: (ℂ, ℂ) -> ℂ = {c, z in z*z + c}
-
-let orbit: (ℂ) -> AnyIterator<ℂ> = {c in iterate(curry(quadrat)(c), x0: ℂ(0))}
-
 let maxIter = 16 // asciiGradient.length
-
-struct MandelbrotOrbiter : IteratorProtocol, Sequence {
-    let c : ℂ;
-    var z = ℂ(0)
-    init(_ cc: ℂ) {
-        c = cc
-    }
-    mutating func next() -> ℂ? {
-        guard z.normal() < 2 else { return nil }
-        z = z*z + c
-        return z
-    }
-}
-
-struct MandelbrotOrbitEnumerator : IteratorProtocol, Sequence {
-    let c : ℂ;
-    var z = ℂ(0)
-    var i = 0
-    init(_ cc: ℂ) {
-        c = cc
-    }
-    mutating func next() -> Int? {
-        guard ((z.normal() < 2) && (i < maxIter)) else { return nil }
-        z = z*z + c
-        i += 1
-        return i
-    }
-}
-
-let iterations: (AnyIterator<ℂ>) -> Int = {seq in
-    length(takeWhile({z in z.normal() < 2}, source: take(maxIter, source: seq)))
-}
-let _iterations: (AnyIterator<ℂ>) -> Int = {seq in
-    length(takeWhile({z in z.normal() < 2}, source: seq.prefix(maxIter)))
-}
-let __iterations: (AnyIterator<ℂ>) -> Int = {seq in
-    seq.prefix(maxIter).prefix(while: {z in z.normal() < 2}).reduce(0, {i, _ in i + 1})
-}
-//let _orbit = {z in sequence(first: ℂ(0), next: curry({c, z in z*z + c})(z))}
-let _orbit = {c in AnyIterator(sequence(first: ℂ(0), next: curry({c, z in z*z + c})(c)))}
-
-func quad(_ c: ℂ, _ z: ℂ) -> ℂ { return z*z + c }
-let orbitFuncQuad = {c in AnyIterator(sequence(first: ℂ(0), next: curry(quad)(c)))}
-let orbitFuncQuadrat = {c in AnyIterator(sequence(first: ℂ(0), next: curry(quadrat)(c)))}
-
-func quadC(_ c: ℂ) -> (ℂ) -> ℂ { return {z in z*z + c}}
-let orbitQuadClosure = {c in AnyIterator(sequence(first: ℂ(0), next: quadC(c)))}
-
-
-func orbitCounter(_ c: ℂ) -> Int {
-    var i = 0
-    let orbital = sequence(first: ℂ(0), next: {z in
-        i = i+1
-        if (z.normal() < 2 && i < maxIter) {
-            return z * z + c
-        } else {
-            return nil
-        }
-    })
-    for _ in orbital {}
-    return i
-}
-
-func _orbitCounter(_ c: ℂ) -> Int {
-    var i = 0
-    let orbital = sequence(first: ℂ(0), next: {z in
-        i = i+1
-        if (z.normal() < 2 && i < maxIter) {
-            return z * z + c
-        } else {
-            return nil
-        }
-    })
-    return orbital._length()
-}
-
-
-func orbitCounter2(_ c: ℂ) -> Int {
-    var last: (Int, ℂ) = (0, ℂ(0))
-    for x in sequence(first: ℂ(0), next: {z in z * z + c}).prefix(while: {$0.normal() < 2}).prefix(maxIter).enumerated() {
-        last = x
-    }
-    return last.0 + 1
-}
-
-func orbital(_ c: ℂ) -> UnfoldFirstSequence<ℂ>{
-    return sequence(first: ℂ(0), next: {z in
-        guard z.normal() < 2 else { return nil }
-        return z * z + c
-    })
-}
-
-func orbitCounter3(_ c: ℂ) -> Int {
-//    let orbital = sequence(first: ℂ(0), next: {z in
-//        guard z.normal() < 2 else { return nil }
-//        return z * z + c
-//    })._prefix(maxIter)
-    return orbital(c)._prefix(maxIter)._length()
-}
-
 
 let side: (Int, Double, Double) -> StrideTo<Double> = {size, start, end in
     stride(from: start, to: end, by:(end-start)/Double(size))
@@ -129,19 +17,19 @@ let toAscii: (Int) -> Character = { n in asciiGradient[n - 1]}
 
 let grid = sideY.map({ y in sideX.map({ x in ℂ(x, i:y) }) })
 
-func imperative(c: ℂ) -> Character {
+func imperative(c: ℂ) -> Int {
     var z = ℂ(0)
     var i = 0;
     repeat {
         z = z*z + c
         i += 1
     } while (z.normal() < 2 && i < maxIter)
-    return toAscii(i)
+    return i
 }
 
-func renderMandelbrot (_ renderer: (ℂ) -> Character) -> String {
+func renderMandelbrot (_ renderer: (ℂ) -> Int) -> String {
     return grid.map {
-        String($0.map(renderer))
+        String($0.map(renderer).map(toAscii))
         }.joined(separator: "\n")
 }
 
@@ -152,14 +40,14 @@ func time<T>(_ fn: () -> T) -> (T, Double) {
     return (result, stop - start)
 }
 
-func timeRendering(_ renderer: (ℂ) -> Character) -> (String, Double) {
+func timeRendering(_ renderer: (ℂ) -> Int) -> (String, Double) {
     let start = CACurrentMediaTime()
     let result = renderMandelbrot(renderer)
     let stop = CACurrentMediaTime()
     return (result, stop - start)
 }
 
-func timeLoops(_ renderers: [(String, (ℂ) -> Character)]) {
+func timeLoops(_ renderers: [(String, (ℂ) -> Int)]) {
     var timedLoops = [(String, Double)]()
     
     print("---Timing...")
@@ -180,102 +68,86 @@ func timeLoops(_ renderers: [(String, (ℂ) -> Character)]) {
     
 }
 
-func nestedCall(c: ℂ) -> Character {
-    return toAscii(orbitCounter(c))
+func reduceOrbiter(c: ℂ) -> Int {
+    return MandelbrotOrbiter(c).prefix(maxIter).reduce(0, {i, _ in i + 1})
 }
-func _nestedCall(c: ℂ) -> Character {
-    return toAscii(_orbitCounter(c))
-}
-func nestedCall2(c: ℂ) -> Character {
-    return toAscii(orbitCounter2(c))
-}
-func nestedCall3(c: ℂ) -> Character {
-    return toAscii(orbitCounter3(c))
+func orbiterLength(c: ℂ) -> Int {
+        return length(MandelbrotOrbiter(c).prefix(maxIter))
 }
 
-func reduceOrbiter(c: ℂ) -> Character {
-    return toAscii(MandelbrotOrbiter(c).prefix(maxIter).reduce(0, {i, _ in i + 1}))
-}
-func orbiterLength(c: ℂ) -> Character {
-        return toAscii(length(MandelbrotOrbiter(c).prefix(maxIter)))
+func lastEnumeratedOrbiter(c: ℂ) -> Int {
+        return MandelbrotOrbiter(c).prefix(maxIter).enumerated().last()!.0 + 1
 }
 
-func lastEnumeratedOrbiter(c: ℂ) -> Character {
-        return toAscii(MandelbrotOrbiter(c).prefix(maxIter).enumerated().last()!.0 + 1)
-}
-
-func lastOrbiterEnumerated(c: ℂ) -> Character {
-    return toAscii(MandelbrotOrbiter(c).enumerated().prefix(maxIter).last()!.0 + 1)
+func lastOrbiterEnumerated(c: ℂ) -> Int {
+    return MandelbrotOrbiter(c).enumerated().prefix(maxIter).last()!.0 + 1
 }
 
 // XXX
-//func lastOrbiterEnumerated2(c: ℂ) -> Character {
-//    return toAscii(MandelbrotOrbiter(c).enumerated().prefix(while: {$0 < maxIter}).last()!.0 + 1)
+//func lastOrbiterEnumerated2(c: ℂ) -> Int {
+//    return MandelbrotOrbiter(c).enumerated().prefix(while: {$0 < maxIter}).last()!.0 + 1)
 //}
 
-func lastEnumeratedOrbitSequence(c: ℂ)-> Character {
-    return toAscii(sequence(first: ℂ(0), next: {z in z * z + c}).prefix(while: {$0.normal() < 2}).prefix(maxIter).enumerated().last()!.0 + 1)
+func lastEnumeratedOrbitSequence(c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in z * z + c}).prefix(while: {$0.normal() < 2}).prefix(maxIter).enumerated().last()!.0 + 1
 }
 
-func lastEnumeratedOrbitSequence2(c: ℂ)-> Character {
-    return toAscii(sequence(first: ℂ(0), next: {z in z * z + c}).prefix(while: {$0.normal() < 2}).enumerated().prefix(maxIter).last()!.0 + 1)
+func lastEnumeratedOrbitSequence2(c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in z * z + c}).prefix(while: {$0.normal() < 2}).enumerated().prefix(maxIter).last()!.0 + 1
 }
 
-func lastEnumeratedOrbitSequence3(c: ℂ)-> Character {
-    return toAscii(sequence(first: ℂ(0), next: {z in z * z + c}).enumerated().prefix(while: {$1.normal() < 2 && $0 < maxIter}).last()!.0 + 1)
+func lastEnumeratedOrbitSequence3(c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in z * z + c}).enumerated().prefix(while: {$1.normal() < 2 && $0 < maxIter}).last()!.0 + 1
 }
 
-func lastEnumeratedOrbitSequence4(c: ℂ)-> Character {
-    return toAscii(sequence(first: ℂ(0), next: {z in z * z + c}).enumerated()._prefix(while: {$1.normal() < 2 && $0 < maxIter}).last()!.0 + 1)
+func lastEnumeratedOrbitSequence4(c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in z * z + c}).enumerated()._prefix(while: {$1.normal() < 2 && $0 < maxIter}).last()!.0 + 1
 }
 
-func lastEnumeratedOrbitSequence4Length(c: ℂ)-> Character {
-    return toAscii(length(sequence(first: ℂ(0), next: {z in z * z + c}).enumerated()._prefix(while: {$1.normal() < 2 && $0 < maxIter})))
+func lastEnumeratedOrbitSequence4Length(c: ℂ) -> Int {
+    return length(sequence(first: ℂ(0), next: {z in z * z + c}).enumerated()._prefix(while: {$1.normal() < 2 && $0 < maxIter}))
 }
 
-func lastEnumeratedOrbitSequence5(c: ℂ)-> Character {
-    return toAscii(sequence(first: ℂ(0), next: {z in z * z + c}).__enumerated().__prefix(while: {$1.normal() < 2 && $0 < maxIter}).last()!.0 + 1)
+func lastEnumeratedOrbitSequence5(c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in z * z + c}).__enumerated().__prefix(while: {$1.normal() < 2 && $0 < maxIter}).last()!.0 + 1
 }
 
-func lastEnumeratedOrbitSequence6(c: ℂ)-> Character {
-    return toAscii(sequence(first: ℂ(0), next: {z in z * z + c}).__prefix(while: {$0.normal() < 2}).__prefix(maxIter).__enumerated().last()!.0 + 1)
+func lastEnumeratedOrbitSequence6(c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in z * z + c}).__prefix(while: {$0.normal() < 2}).__prefix(maxIter).__enumerated().last()!.0 + 1
 }
 
-func lastEnumeratedOrbitSequence7(c: ℂ)-> Character {
-    return toAscii(sequence(first: ℂ(0), next: {z in z * z + c})._enumerated()._prefix(while: {$1.normal() < 2 && $0 < maxIter}).last()!.0 + 1)
+func lastEnumeratedOrbitSequence7(c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in z * z + c})._enumerated()._prefix(while: {$1.normal() < 2 && $0 < maxIter}).last()!.0 + 1
 }
 
-func lastEnumeratedOrbitSequence8(c: ℂ)-> Character {
-    return toAscii(sequence(first: ℂ(0), next: {z in z * z + c})._prefix(while: {$0.normal() < 2})._prefix(maxIter)._enumerated().last()!.0 + 1)
+func lastEnumeratedOrbitSequence8(c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in z * z + c})._prefix(while: {$0.normal() < 2})._prefix(maxIter)._enumerated().last()!.0 + 1
 }
 
-func maxEnumeratedOrbiter(c: ℂ) -> Character {
-    return toAscii(MandelbrotOrbiter(c).prefix(maxIter).enumerated().max(by: {$0.0 < $1.0})!.offset + 1)
+func maxEnumeratedOrbiter(c: ℂ) -> Int {
+    return MandelbrotOrbiter(c).prefix(maxIter).enumerated().max(by: {$0.0 < $1.0})!.offset + 1
 }
 
-func last<S: Sequence>(_ sequence: S) -> S.Iterator.Element {
-    var i = sequence.makeIterator()
-    return sequence.reduce(i.next()!, {$1})
+func lastOrbitEnumerator(c: ℂ) -> Int {
+    return last(MandelbrotOrbitEnumerator(c))
 }
 
-func lastOrbitEnumerator(c: ℂ) -> Character {
-    return toAscii(last(MandelbrotOrbitEnumerator(c)))
+func orbitEnumeratorLast(c: ℂ) -> Int {
+    return MandelbrotOrbitEnumerator(c).last()!
 }
 
-func orbitEnumeratorLast(c: ℂ) -> Character {
-    return toAscii(MandelbrotOrbitEnumerator(c).last()!)
+func orbitEnumerator_Last(c: ℂ) -> Int {
+    return MandelbrotOrbitEnumerator(c)._last()!
 }
 
-func orbitEnumerator_Last(c: ℂ) -> Character {
-    return toAscii(MandelbrotOrbitEnumerator(c)._last()!)
-}
+
 
 let renderers = [
     ("imperative                      ", imperative),
-    ("nestedCall                      ", nestedCall),
-    ("_nestedCall                     ", _nestedCall),
-    ("nestedCall2                     ", nestedCall2),
-    ("nestedCall3                     ", nestedCall3),
+    ("orbitCounter                    ", orbitCounter),
+    ("_orbitCounter                   ", _orbitCounter),
+    ("orbitCounter2                   ", orbitCounter2),
+    ("orbitCounter3                   ", orbitCounter3),
     ("lastEnumeratedOrbitSequence     ", lastEnumeratedOrbitSequence),
     ("lastEnumeratedOrbitSequence2    ", lastEnumeratedOrbitSequence2),
     ("lastEnumeratedOrbitSequence3    ", lastEnumeratedOrbitSequence3),
@@ -295,23 +167,17 @@ let renderers = [
 //    ("last1OrbitEnumerator            ", last1OrbitEnumerator),
     ("orbitEnumeratorLast             ", orbitEnumeratorLast),
     ("orbitEnumerator_Last            ", orbitEnumerator_Last),
+    ("orbitFuncQuad                   ", __iterations >>> orbitFuncQuad),
+    ("orbitFuncQuadrat                ", __iterations >>> orbitFuncQuadrat),
+    ("orbitQuadClosure                ", __iterations >>> orbitQuadClosure),
+    //    ("takeWhile take length iterate   ", iterations >>> orbit),
+    //    ("takeWhile prefix length iterate ", _iterations >>> orbit),
+    //    ("prefix prefix reduce iterate    ", __iterations >>> orbit),
+    //    ("takeWhile take length sequence  ", iterations >>> _orbit),
+    //    ("takeWhile prefix length sequence", _iterations >>> _orbit),
+    ("prefix prefix reduce sequence   ", __iterations >>> _orbit)
 ]
 
-//let renderers = [
-//    ("imperative                      ", imperative),
-//    ("nestedCall                      ", nestedCall),
-//    ("nestedCall2                     ", nestedCall2),
-//    ("nestedCall3                     ", nestedCall3),
-//    ("orbitFuncQuad                   ", toAscii >>> __iterations >>> orbitFuncQuad),
-//    ("orbitFuncQuadrat                ", toAscii >>> __iterations >>> orbitFuncQuadrat),
-//    ("orbitQuadClosure                ", toAscii >>> __iterations >>> orbitQuadClosure),
-////    ("takeWhile take length iterate   ", toAscii >>> iterations >>> orbit),
-////    ("takeWhile prefix length iterate ", toAscii >>> _iterations >>> orbit),
-////    ("prefix prefix reduce iterate    ", toAscii >>> __iterations >>> orbit),
-////    ("takeWhile take length sequence  ", toAscii >>> iterations >>> _orbit),
-////    ("takeWhile prefix length sequence", toAscii >>> _iterations >>> _orbit),
-//    ("prefix prefix reduce sequence   ", toAscii >>> __iterations >>> _orbit)
-//]
 
 timeLoops(renderers)
 

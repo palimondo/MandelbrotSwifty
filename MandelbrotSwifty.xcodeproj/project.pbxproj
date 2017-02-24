@@ -22,7 +22,7 @@
 		98E51AF31E56593F00EFAA61 /* DropFirstSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E51AF21E56593F00EFAA61 /* DropFirstSequence.swift */; };
 		98F2384A1E3F35FA00F006EB /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F238491E3F35FA00F006EB /* main.swift */; };
 		98FD2C4D1E5CC9C6007627DE /* functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FD2C4C1E5CC9C6007627DE /* functional.swift */; };
-		98FD2C4F1E5CD098007627DE /* swifty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FD2C4E1E5CD098007627DE /* swifty.swift */; };
+		98FD2C4F1E5CD098007627DE /* swiftyCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FD2C4E1E5CD098007627DE /* swiftyCustom.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -58,7 +58,7 @@
 		98F238461E3F35FA00F006EB /* MandelbrotSwifty */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MandelbrotSwifty; sourceTree = BUILT_PRODUCTS_DIR; };
 		98F238491E3F35FA00F006EB /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		98FD2C4C1E5CC9C6007627DE /* functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = functional.swift; sourceTree = "<group>"; };
-		98FD2C4E1E5CD098007627DE /* swifty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = swifty.swift; sourceTree = "<group>"; };
+		98FD2C4E1E5CD098007627DE /* swiftyCustom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = swiftyCustom.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,7 +97,7 @@
 			children = (
 				98F238491E3F35FA00F006EB /* main.swift */,
 				98FD2C4C1E5CC9C6007627DE /* functional.swift */,
-				98FD2C4E1E5CD098007627DE /* swifty.swift */,
+				98FD2C4E1E5CD098007627DE /* swiftyCustom.swift */,
 				98AFA0621E606AEA00C9AE29 /* swiftyComposed.swift */,
 				98AFA0641E606B2400C9AE29 /* swiftyFused.swift */,
 				9834A4601E5BB71200DA7AB5 /* prelude.swift */,
@@ -176,7 +176,7 @@
 				983D8CAE1E5B871400D1D249 /* DropWhile.swift in Sources */,
 				9834A4611E5BB71200DA7AB5 /* prelude.swift in Sources */,
 				9834A45D1E5BB69100DA7AB5 /* ComplexNumber.swift in Sources */,
-				98FD2C4F1E5CD098007627DE /* swifty.swift in Sources */,
+				98FD2C4F1E5CD098007627DE /* swiftyCustom.swift in Sources */,
 				9834A4631E5BBA1000DA7AB5 /* util.swift in Sources */,
 				98FD2C4D1E5CC9C6007627DE /* functional.swift in Sources */,
 				98E51AF31E56593F00EFAA61 /* DropFirstSequence.swift in Sources */,

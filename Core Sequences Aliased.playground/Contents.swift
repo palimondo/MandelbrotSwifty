@@ -6,6 +6,18 @@ let zs: Array<Int> = []
 Array(ys)
 
 
+//struct _AnyIterator<Element> : IteratorProtocol, Sequence {
+//    let _next: () -> Element?
+//    func next() -> Element? {
+//        return _next()
+//    }
+//}
+
+//struct _AnySequence<Element> : Sequence {
+//    let _makeIterator: () -> Iterator
+//}
+
+
 // Drop First
 /*
 Array(ys.dropFirst(2))
@@ -43,10 +55,9 @@ Array(ys.__dropFirst(2))
 */
 
 // Drop While
-
+/*
 //let dw = ys.drop(while: {$0 > 2})
 //dw
-
 
 public struct DropWhileIterator<I: IteratorProtocol> {
     var predicateHasFailed: Bool
@@ -102,7 +113,7 @@ Array(ddw)
 
 let dddw = ys.__drop(while: {$0 > 2})
 Array(dddw)
-
+*/
 
 /*
  // from map<T> -- could be useful for ring buffer?

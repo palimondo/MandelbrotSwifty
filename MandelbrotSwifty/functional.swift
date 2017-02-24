@@ -21,3 +21,16 @@ let orbitFuncQuadrat = {c in AnyIterator(sequence(first: ℂ(0), next: curry(qua
 
 func quadC(_ c: ℂ) -> (ℂ) -> ℂ { return {z in z*z + c}}
 let orbitQuadClosure = {c in AnyIterator(sequence(first: ℂ(0), next: quadC(c)))}
+
+
+let functional = [
+    ("orbitFuncQuad                   ", __iterations >>> orbitFuncQuad),
+    ("orbitFuncQuadrat                ", __iterations >>> orbitFuncQuadrat),
+    ("orbitQuadClosure                ", __iterations >>> orbitQuadClosure),
+    //    ("takeWhile take length iterate   ", iterations >>> orbit),
+    //    ("takeWhile prefix length iterate ", _iterations >>> orbit),
+    //    ("prefix prefix reduce iterate    ", __iterations >>> orbit),
+    //    ("takeWhile take length sequence  ", iterations >>> _orbit),
+    //    ("takeWhile prefix length sequence", _iterations >>> _orbit),
+    ("prefix prefix reduce sequence   ", __iterations >>> _orbit)
+]

@@ -9,6 +9,10 @@ struct MandelbrotOrbiter : IteratorProtocol, Sequence {
         z = z*z + c
         return z
     }
+//    public mutating func makeIterator() -> MandelbrotOrbiter {
+//        z = ℂ(0)
+//        return self
+//    }
 }
 
 struct MandelbrotOrbitEnumerator : IteratorProtocol, Sequence {
@@ -27,54 +31,51 @@ struct MandelbrotOrbitEnumerator : IteratorProtocol, Sequence {
 }
 
 
-func orbitCounter(_ c: ℂ) -> Int {
-    var i = 0
-    let orbital = sequence(first: ℂ(0), next: {z in
-        i = i+1
-        if (z.normal() < 2 && i < maxIter) {
-            return z * z + c
-        } else {
-            return nil
-        }
-    })
-    for _ in orbital {}
-    return i
+
+func reduceOrbiter(c: ℂ) -> Int {
+    return MandelbrotOrbiter(c).prefix(maxIter).reduce(0, {i, _ in i + 1})
+}
+func orbiterLength(c: ℂ) -> Int {
+    return length(MandelbrotOrbiter(c).prefix(maxIter))
+    // TODO compare with seq._length
 }
 
-func _orbitCounter(_ c: ℂ) -> Int {
-    var i = 0
-    let orbital = sequence(first: ℂ(0), next: {z in
-        i = i+1
-        if (z.normal() < 2 && i < maxIter) {
-            return z * z + c
-        } else {
-            return nil
-        }
-    })
-    return orbital._length()
+func lastEnumeratedOrbiter(c: ℂ) -> Int {
+    return MandelbrotOrbiter(c).prefix(maxIter).enumerated().last()!.0 + 1
 }
 
-
-func orbitCounter2(_ c: ℂ) -> Int {
-    var last: (Int, ℂ) = (0, ℂ(0))
-    for x in sequence(first: ℂ(0), next: {z in z * z + c}).prefix(while: {$0.normal() < 2}).prefix(maxIter).enumerated() {
-        last = x
-    }
-    return last.0 + 1
+func lastOrbiterEnumerated(c: ℂ) -> Int {
+    return MandelbrotOrbiter(c).enumerated().prefix(maxIter).last()!.0 + 1
 }
 
-func orbital(_ c: ℂ) -> UnfoldFirstSequence<ℂ>{
-    return sequence(first: ℂ(0), next: {z in
-        guard z.normal() < 2 else { return nil }
-        return z * z + c
-    })
+func lastOrbiterEnumerated2(c: ℂ) -> Int {
+    return MandelbrotOrbiter(c).enumerated().prefix(while: {$0.0 < maxIter}).last()!.0 + 1
 }
 
-func orbitCounter3(_ c: ℂ) -> Int {
-    //    let orbital = sequence(first: ℂ(0), next: {z in
-    //        guard z.normal() < 2 else { return nil }
-    //        return z * z + c
-    //    })._prefix(maxIter)
-    return orbital(c)._prefix(maxIter)._length()
+func maxEnumeratedOrbiter(c: ℂ) -> Int {
+    return MandelbrotOrbiter(c).prefix(maxIter).enumerated().max(by: {$0.0 < $1.0})!.offset + 1
 }
 
+func lastOrbitEnumerator(c: ℂ) -> Int {
+    return last(MandelbrotOrbitEnumerator(c))
+}
+
+func orbitEnumeratorLast(c: ℂ) -> Int {
+    return MandelbrotOrbitEnumerator(c).last()!
+}
+
+func orbitEnumerator_Last(c: ℂ) -> Int {
+    return MandelbrotOrbitEnumerator(c)._last()!
+}
+
+let swiftyCustom = [
+    ("reduceOrbiter                   ", reduceOrbiter),
+    ("orbiterLength                   ", orbiterLength),
+    ("lastEnumeratedOrbiter           ", lastEnumeratedOrbiter),
+    ("lastOrbiterEnumerated           ", lastOrbiterEnumerated),
+    ("lastOrbiterEnumerated2          ", lastOrbiterEnumerated2),
+    ("maxEnumeratedOrbiter            ", maxEnumeratedOrbiter),
+    ("lastOrbitEnumerator             ", lastOrbitEnumerator),
+    ("orbitEnumeratorLast             ", orbitEnumeratorLast),
+    ("orbitEnumerator_Last            ", orbitEnumerator_Last),
+]

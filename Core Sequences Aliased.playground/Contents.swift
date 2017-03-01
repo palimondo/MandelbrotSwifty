@@ -256,9 +256,9 @@ Array(dddw)
  Array(zs.__prefix(2))
  */
 
-/*
- // Prefix While (PrefixWhileSequence)
 
+ // Prefix While (PrefixWhileSequence)
+/*
 public struct PredicatedIterator<I: IteratorProtocol> {
     var predicate: (I.Element) -> Bool
     var iterator: I
@@ -279,18 +279,16 @@ extension Sequence {
             })
     }
     
-    
-    
     public typealias Predicate = (Iterator.Element) -> Bool
     //    public typealias PredicatedIterator = (predicate: Predicate, iterator: Self.Iterator)
     
     public func __prefix (while predicate: @escaping Predicate) ->
         UnfoldSequence<Self.Iterator.Element, PredicatedIterator<Iterator>> {
-            func nextMatch(state: inout PredicatedIterator<Iterator>) -> Iterator.Element? {
+            return sequence(state: PredicatedIterator(predicate, makeIterator()), next: {
+                (state: inout PredicatedIterator<Iterator>) -> Iterator.Element? in
                 guard let e = state.iterator.next() else { return nil }
                 return state.predicate(e) ? e : nil
-            }
-            return sequence(state: PredicatedIterator(predicate, makeIterator()), next: nextMatch)
+            })
     }
     
     internal func nextMatch(state: inout PredicatedIterator<Iterator>) -> Iterator.Element? {
@@ -303,12 +301,11 @@ extension Sequence {
             return sequence(state: PredicatedIterator(predicate, makeIterator()), next: nextMatch)
     }
 }
-
+ 
 let pw = Array(ys._prefix(while: {$0 > 2}))
 pw
-//let ppw = Array(ys.__prefix(while: {$0 > 2}))
- //ppw
- //let pppw = Array(ys.___prefix(while: {$0 > 2}))
- //pppw
- */
-
+let ppw = Array(ys.__prefix(while: {$0 > 2}))
+ppw
+let pppw = Array(ys.___prefix(while: {$0 > 2}))
+pppw
+*/

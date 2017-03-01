@@ -1,7 +1,5 @@
 // Drop First
 
-let d = ys.dropFirst(2)
-
 extension Sequence {
     
     public typealias _EnumeratedIterator = (count: Int, iterator: Iterator)
@@ -29,6 +27,19 @@ extension Sequence {
             }
             return sequence(state: (n, makeIterator()), next: dropNext)
     }
+    
+    public func ___dropFirst(_ n: Int) -> _AnyIterator<Iterator.Element> {
+        var count = n
+        var iterator = makeIterator()
+        
+        return _AnyIterator {
+            while count > 0 {
+                if iterator.next() == nil {
+                    return nil
+                }
+                count -= 1
+            }
+            return iterator.next()
+        }
+    }
 }
-let dd = ys._dropFirst(2)
-let ddd = ys.__dropFirst(2)

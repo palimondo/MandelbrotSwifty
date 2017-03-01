@@ -55,3 +55,47 @@ func last<S: Sequence>(_ sequence: S) -> S.Iterator.Element {
     return sequence.reduce(i.next()!, {$1})
 }
 
+// ripped-off from _ClosureBasedIterator
+public struct _AnyIterator<Element> : IteratorProtocol, Sequence {
+    let _next: () -> Element?
+    public init(_ next: @escaping () -> Element?) {
+        _next = next
+    }
+    public func next() -> Element? {
+        // FIXME test for nil result and always return nil thereafter
+        return _next()
+    }
+}
+
+func _sequence<T>(first: T, next: @escaping (T) -> T?) -> _AnyIterator<T> {
+    var value : T? = first
+    var firstValue = true
+    return _AnyIterator {
+        guard !firstValue else { firstValue = false; return value }
+        value = value.flatMap(next)
+        return value
+    }
+}
+
+func _sequence<T, State>(state: State, next: @escaping (inout State) -> T?) -> _AnyIterator<T> {
+    var state = state
+    var done = false
+    return _AnyIterator {
+        guard !done else { return nil }
+        if let elt = next(&state) {
+            return elt
+        } else {
+            done = true
+            return nil
+        }
+    }
+}
+
+@_specialize(Int)
+func iterate<A>(_ f: @escaping (A) -> A, x0: A) -> AnyIterator<A> {
+    var x = x0
+    return AnyIterator {
+        defer {x = f(x)}
+        return x
+    }
+}

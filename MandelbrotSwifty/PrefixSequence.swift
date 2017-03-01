@@ -32,8 +32,18 @@ extension Sequence {
         }
         return sequence(state: (maxLength, makeIterator()), next: countDownNext)
     }
+
+    public func ___prefix(_ maxLength: Int) ->
+        _AnyIterator<Iterator.Element> {
+            var iterator = makeIterator()
+            var count = maxLength
+            
+            return _AnyIterator {
+                count -= 1
+                return (0 <= count) ? iterator.next() : nil
+            }
+
+    }
 }
 
-let pp = Array(ys._prefix(2))
-let ppp = Array(ys.__prefix(2))
 

@@ -24,10 +24,16 @@ extension Sequence {
             }
             return sequence(state: (0, makeIterator()), next: enumerateNext)
     }
+
+    public func ___enumerated() -> _AnyIterator<(Int, Iterator.Element)> {
+        var count = 0
+        var iterator = makeIterator()
+        
+        return _AnyIterator {
+            guard let element = iterator.next() else { return nil }
+            defer { count += 1 }
+            return (count, element)
+        }
+    }
 }
 
-let e = Array(xs.enumerated())
-
-let ee = Array(xs._enumerated())
-
-let eee = Array(xs.__enumerated())

@@ -51,7 +51,23 @@ extension Sequence {
     public func __drop(while predicate: @escaping (Iterator.Element) -> Bool) -> UnfoldSequence<Iterator.Element, DropWhileIterator<Iterator>> {
         return sequence(state: DropWhileIterator(false, predicate, makeIterator()), next: dropWhile)
     }
+    
+    public func ___drop(while predicate: @escaping (Iterator.Element) -> Bool) -> _AnyIterator<Iterator.Element> {
+        var predicateHasFailed = false
+        var iterator = makeIterator()
+        
+        return _AnyIterator {
+            guard predicateHasFailed else {
+                while let nextElement = iterator.next() {
+                    guard predicate(nextElement) else {
+                        predicateHasFailed = true
+                        return nextElement
+                    }
+                }
+                return nil // exhausted underlying sequence
+            }
+            return iterator.next()
+        }
+    }
 }
 
-let ddw = ys._drop(while: {$0 > 2})
-let dddw = ys.__drop(while: {$0 > 2})

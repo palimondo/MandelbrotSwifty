@@ -15,10 +15,38 @@ extension Sequence {
         return lastOne
     }
     
+//    @_transparent
+    @inline(__always)
     func _last() -> Iterator.Element? {
         var i = makeIterator()
-        guard let first = i.next() else {return nil}
-        return reduce(first, {$1})
+        return reduce(i.next(), {$1})
+    }
+    
+//    @_transparent
+    @inline(__always)
+    func __last() -> Iterator.Element? {
+        var i = makeIterator()
+        return __reduce(i.next(), {$0 = $1})
+    }
+    
+    public func _reduce<Result>(
+        _ initialResult: Result,
+        _ nextPartialResult:
+        (_ partialResult: inout Result, Iterator.Element) throws -> ()
+        ) rethrows -> Result {
+        var accumulator = initialResult
+        for element in self {
+            try nextPartialResult(&accumulator, element)
+        }
+        return accumulator
+    }
+    
+    func __reduce<A>(_ initial: A, _ combine: (inout A, Iterator.Element) -> ()) -> A {
+        var result = initial
+        for element in self {
+            combine(&result, element)
+        }
+        return result
     }
 }
 

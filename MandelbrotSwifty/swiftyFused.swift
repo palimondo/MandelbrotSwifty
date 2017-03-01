@@ -26,6 +26,45 @@ func _orbitCounter(_ c: ℂ) -> Int {
     return orbital._length()
 }
 
+func orbitEnumerated(_ c: ℂ) -> Int {
+    let orbital = sequence(first: ℂ(0), next: {z in
+        guard z.normal() < 2 else {return nil}
+        return z * z + c
+    })
+    return orbital.enumerated().prefix(while: {$0.0 < maxIter}).last()!.0 + 1
+}
+
+func orbitEnumerated2(_ c: ℂ) -> Int {
+    let orbital = sequence(first: ℂ(0), next: {z in
+        guard z.normal() < 2 else {return nil}
+        return z * z + c
+    })
+    return orbital.enumerated().prefix(while: {$0.0 < maxIter})._last()!.0 + 1
+}
+
+func orbitEnumerated_2(_ c: ℂ) -> Int {
+    let orbital = sequence(first: ℂ(0), next: {z in
+        guard z.normal() < 2 else {return nil}
+        return z * z + c
+    })
+    return orbital.enumerated()._prefix(while: {$0.0 < maxIter}).__last()!.0 + 1
+}
+
+func orbit_Enumerated_2(_ c: ℂ) -> Int {
+    let orbital = sequence(first: ℂ(0), next: {z in
+        guard z.normal() < 2 else {return nil}
+        return z * z + c
+    })
+    return orbital._enumerated().prefix(while: {$0.0 < maxIter}).__last()!.0 + 1
+}
+
+func orbitEnumerated3(_ c: ℂ) -> Int {
+    let orbital = sequence(first: ℂ(0), next: {z in
+        guard z.normal() < 2 else {return nil}
+        return z * z + c
+    })
+    return orbital.enumerated().prefix(while: {$0.0 < maxIter}).__last()!.0 + 1
+}
 
 func orbitCounter2(_ c: ℂ) -> Int {
     var last: (Int, ℂ) = (0, ℂ(0))
@@ -53,6 +92,12 @@ func orbitCounter3(_ c: ℂ) -> Int {
 let swiftyFused = [
     ("orbitCounter                    ", orbitCounter),
     ("_orbitCounter                   ", _orbitCounter),
-    ("orbitCounter2                   ", orbitCounter2),
-    ("orbitCounter3                   ", orbitCounter3),
+// TODO - this doesn't optimize, but lastOrbiterEnumerated2 does
+    ("orbitEnumerated                 ", orbitEnumerated),
+    ("orbitEnumerated2                ", orbitEnumerated2),
+    ("orbitEnumerated_2               ", orbitEnumerated_2),
+    ("orbit_Enumerated_2              ", orbit_Enumerated_2),
+    ("orbitEnumerated3                ", orbitEnumerated3),
+//    ("orbitCounter2                   ", orbitCounter2),
+//    ("orbitCounter3                   ", orbitCounter3),
 ]

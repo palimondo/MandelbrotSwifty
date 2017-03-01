@@ -20,8 +20,6 @@ extension Sequence {
             })
     }
     
-    
-    
     public typealias Predicate = (Iterator.Element) -> Bool
 //    public typealias PredicatedIterator = (predicate: Predicate, iterator: Self.Iterator)
     

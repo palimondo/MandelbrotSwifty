@@ -52,6 +52,10 @@ func lastOrbiterEnumerated2(c: ℂ) -> Int {
     return MandelbrotOrbiter(c).enumerated().prefix(while: {$0.0 < maxIter}).last()!.0 + 1
 }
 
+func lastOrbiterEnumerated_2(c: ℂ) -> Int {
+    return MandelbrotOrbiter(c).enumerated()._prefix(while: {$0.0 < maxIter})._last()!.0 + 1
+}
+
 func maxEnumeratedOrbiter(c: ℂ) -> Int {
     return MandelbrotOrbiter(c).prefix(maxIter).enumerated().max(by: {$0.0 < $1.0})!.offset + 1
 }
@@ -68,14 +72,22 @@ func orbitEnumerator_Last(c: ℂ) -> Int {
     return MandelbrotOrbitEnumerator(c)._last()!
 }
 
+func orbitEnumerator__Last(c: ℂ) -> Int {
+    return MandelbrotOrbitEnumerator(c).__last()!
+}
+
 let swiftyCustom = [
-    ("reduceOrbiter                   ", reduceOrbiter),
-    ("orbiterLength                   ", orbiterLength),
-    ("lastEnumeratedOrbiter           ", lastEnumeratedOrbiter),
-    ("lastOrbiterEnumerated           ", lastOrbiterEnumerated),
+//    ("reduceOrbiter                   ", reduceOrbiter),
+//    ("orbiterLength                   ", orbiterLength),
+    
+//    ("lastEnumeratedOrbiter           ", lastEnumeratedOrbiter),
+//    ("lastOrbiterEnumerated           ", lastOrbiterEnumerated),
+
     ("lastOrbiterEnumerated2          ", lastOrbiterEnumerated2),
-    ("maxEnumeratedOrbiter            ", maxEnumeratedOrbiter),
+    ("lastOrbiterEnumerated_2         ", lastOrbiterEnumerated_2),
+//    ("maxEnumeratedOrbiter            ", maxEnumeratedOrbiter),
     ("lastOrbitEnumerator             ", lastOrbitEnumerator),
     ("orbitEnumeratorLast             ", orbitEnumeratorLast),
     ("orbitEnumerator_Last            ", orbitEnumerator_Last),
+    ("orbitEnumerator__Last           ", orbitEnumerator__Last),
 ]

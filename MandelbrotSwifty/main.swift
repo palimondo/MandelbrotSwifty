@@ -5,9 +5,9 @@ let maxIter = 16 // asciiGradient.length
 let side: (Int, Double, Double) -> StrideTo<Double> = {size, start, end in
     stride(from: start, to: end, by:(end-start)/Double(size))
 }
-
-let w = 640
-let h = 320
+let m = 1
+let w = 640 * m
+let h = 320 * m
 
 let sideX = side(w, -2, 2) // 64 16
 let sideY = side(h, -2, 2) // 32 8
@@ -96,7 +96,9 @@ func imperative(c: ℂ) -> Int {
 let allRenderers = [("imperative                      ", imperative)]
     + swiftyFused
     + swiftyCustom
-    + swiftyComposed
+    + [("imperative'                     ", imperative)]
+//    + swiftyComposed
+//    + functional
 
 timeLoops(allRenderers)
 

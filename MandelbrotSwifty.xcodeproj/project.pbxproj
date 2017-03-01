@@ -51,6 +51,7 @@
 		984030B41E564C52004711F4 /* PrefixSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefixSequence.swift; sourceTree = "<group>"; };
 		989285DD1E55EF38008C015B /* Zip2Sequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Zip2Sequence.swift; sourceTree = "<group>"; };
 		98A458A91E56EAA10099C714 /* PrefixWhile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefixWhile.swift; sourceTree = "<group>"; };
+		98ACF0291E67547F005D4799 /* Core Sequences Closure.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Core Sequences Closure.playground"; sourceTree = "<group>"; };
 		98AFA0621E606AEA00C9AE29 /* swiftyComposed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = swiftyComposed.swift; sourceTree = "<group>"; };
 		98AFA0641E606B2400C9AE29 /* swiftyFused.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = swiftyFused.swift; sourceTree = "<group>"; };
 		98B739DF1E55EE8B00A26726 /* testInputs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = testInputs.swift; sourceTree = "<group>"; };
@@ -75,6 +76,7 @@
 		98F2383D1E3F35FA00F006EB = {
 			isa = PBXGroup;
 			children = (
+				98ACF0291E67547F005D4799 /* Core Sequences Closure.playground */,
 				9809A57D1E56F2770082AC10 /* Core Sequences Aliased.playground */,
 				9809A57E1E56F2770082AC10 /* Core Sequences.playground */,
 				9809A57F1E56F2770082AC10 /* Mandelbrot Hashell-like.playground */,

@@ -32,7 +32,7 @@ extension Sequence {
             })
     }
 
-    internal func nextMatch(state: inout PredicatedIterator<Iterator>) -> Iterator.Element? {
+    private func nextMatch(state: inout PredicatedIterator<Iterator>) -> Iterator.Element? {
         guard let e = state.iterator.next() else { return nil }
         return state.predicate(e) ? e : nil
     }

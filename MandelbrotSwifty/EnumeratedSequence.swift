@@ -15,13 +15,14 @@ extension Sequence {
             })
     }
     
+    private func enumerateNext(state: inout _EnumeratedIterator) -> _EnumeratedElement? {
+        guard let element = state.iterator.next() else { return nil }
+        defer { state.count = state.count &+ 1 }
+        return (state.count, element)
+    }
+
     public func __enumerated () ->
         UnfoldSequence<_EnumeratedElement, _EnumeratedIterator> {
-            func enumerateNext(state: inout _EnumeratedIterator) -> _EnumeratedElement? {
-                guard let element = state.iterator.next() else { return nil }
-                defer { state.count = state.count &+ 1 }
-                return (state.count, element)
-            }
             return sequence(state: (0, makeIterator()), next: enumerateNext)
     }
 
@@ -31,7 +32,7 @@ extension Sequence {
         
         return _AnyIterator {
             guard let element = iterator.next() else { return nil }
-            defer { count += 1 }
+            defer { count =  count &+ 1 }
             return (count, element)
         }
     }

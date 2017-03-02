@@ -16,15 +16,16 @@ extension Sequence {
             })
     }
     
+    private func dropNext(state: inout _EnumeratedIterator) -> Iterator.Element? {
+        while state.count > 0 {
+            guard state.iterator.next() != nil else { return nil }
+            state.count = state.count &- 1
+        }
+        return state.iterator.next()
+    }
+    
     public func __dropFirst(_ n: Int) ->
         UnfoldSequence<Iterator.Element, _EnumeratedIterator> {
-            func dropNext(state: inout _EnumeratedIterator) -> Iterator.Element? {
-                while state.count > 0 {
-                    guard state.iterator.next() != nil else { return nil }
-                    state.count = state.count &- 1
-                }
-                return state.iterator.next()
-            }
             return sequence(state: (n, makeIterator()), next: dropNext)
     }
     

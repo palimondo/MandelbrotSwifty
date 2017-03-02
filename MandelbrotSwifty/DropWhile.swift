@@ -35,7 +35,7 @@ extension Sequence {
         })
     }
     
-    internal func dropWhile(state: inout DropWhileIterator<Iterator>) -> Iterator.Element? {
+    private func dropWhile(state: inout DropWhileIterator<Iterator>) -> Iterator.Element? {
         guard state.predicateHasFailed else {
             while let nextElement = state.iterator.next() {
                 if !state.predicate(nextElement) {

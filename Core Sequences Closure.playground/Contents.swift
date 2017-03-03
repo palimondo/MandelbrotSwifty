@@ -5,16 +5,21 @@ let ys = stride(from: 4, through: 1, by: -1)
 let zs: Array<Int> = []
 Array(ys)
 
-
 // ripped-off from _ClosureBasedIterator
 public struct _AnyIterator<Element> : IteratorProtocol, Sequence {
     let _next: () -> Element?
+    var done = false
     public init(_ next: @escaping () -> Element?) {
         _next = next
     }
-    public func next() -> Element? {
-        // FIXME test for nil result and always return nil thereafter
-        return _next()
+    public mutating func next() -> Element? {
+        guard !done else { return nil }
+        if let nextElement = _next() {
+            return nextElement
+        } else {
+            done = true
+            return nil
+        }
     }
 }
 
@@ -77,6 +82,10 @@ extension Sequence {
 }
 Array(ys._dropFirst(2))
 Array(zs._dropFirst(2))
+
+// TODO ??
+// Drop Last (Lazy)
+// Suffix
 
 
 // Drop While

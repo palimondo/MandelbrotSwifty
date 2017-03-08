@@ -90,12 +90,3 @@ func _sequence<T, State>(state: State, next: @escaping (inout State) -> T?) -> _
         }
     }
 }
-
-@_specialize(Int)
-func iterate<A>(_ f: @escaping (A) -> A, x0: A) -> AnyIterator<A> {
-    var x = x0
-    return AnyIterator {
-        defer {x = f(x)}
-        return x
-    }
-}

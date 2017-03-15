@@ -24,12 +24,12 @@ extension Sequence {
             (state: inout DropWhileIterator) -> Iterator.Element? in
             guard state.predicateHasFailed else {
                 while let nextElement = state.iterator.next() {
-                    if !predicate(nextElement) {
+                    guard predicate(nextElement) else {
                         state.predicateHasFailed = true
                         return nextElement
                     }
                 }
-                return nil
+                return nil // exhausted underlying sequence
             }
             return state.iterator.next()
         })
@@ -38,12 +38,12 @@ extension Sequence {
     private func dropWhile(state: inout DropWhileIterator<Iterator>) -> Iterator.Element? {
         guard state.predicateHasFailed else {
             while let nextElement = state.iterator.next() {
-                if !state.predicate(nextElement) {
+                guard state.predicate(nextElement) else {
                     state.predicateHasFailed = true
                     return nextElement
                 }
             }
-            return nil
+            return nil // exhausted underlying sequence
         }
         return state.iterator.next()
     }

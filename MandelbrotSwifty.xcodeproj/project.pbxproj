@@ -56,6 +56,7 @@
 		98AFA0641E606B2400C9AE29 /* swiftyFused.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = swiftyFused.swift; sourceTree = "<group>"; };
 		98B739DF1E55EE8B00A26726 /* testInputs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = testInputs.swift; sourceTree = "<group>"; };
 		98E51AF21E56593F00EFAA61 /* DropFirstSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropFirstSequence.swift; sourceTree = "<group>"; };
+		98E8D7391E792F71003275FE /* Sequence Composed.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Sequence Composed.playground"; sourceTree = "<group>"; };
 		98F238461E3F35FA00F006EB /* MandelbrotSwifty */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MandelbrotSwifty; sourceTree = BUILT_PRODUCTS_DIR; };
 		98F238491E3F35FA00F006EB /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		98FB484C1E69639D00DE780B /* Sequence Algebra.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Sequence Algebra.playground"; sourceTree = "<group>"; };
@@ -77,6 +78,7 @@
 		98F2383D1E3F35FA00F006EB = {
 			isa = PBXGroup;
 			children = (
+				98E8D7391E792F71003275FE /* Sequence Composed.playground */,
 				98FB484C1E69639D00DE780B /* Sequence Algebra.playground */,
 				98ACF0291E67547F005D4799 /* Core Sequences Closure.playground */,
 				9809A57D1E56F2770082AC10 /* Core Sequences Aliased.playground */,

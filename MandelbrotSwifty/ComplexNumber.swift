@@ -13,10 +13,6 @@ struct ComplexNumber {
     func normal() -> Double {
         return Re * Re + Im * Im
     }
-    
-    func asTuple() -> (real:Double, imaginary:Double) {
-        return (Re, Im)
-    }
 }
 
 typealias ℂ = ComplexNumber

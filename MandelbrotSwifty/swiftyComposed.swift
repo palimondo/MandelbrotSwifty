@@ -1,14 +1,16 @@
 
 func lastEnumeratedOrbitSequence(c: ℂ) -> Int {
-    return sequence(first: ℂ(0), next: {z in z * z + c}).prefix(while: {$0.normal() < 2}).prefix(maxIter).enumerated().last()!.0 + 1
+    let s = sequence(first: ℂ(0), next: {z in z * z + c}).lazy.prefix(while: {$0.normal() < 2})
+    return s.prefix(maxIter).enumerated().last()!.0 + 1
 }
 
 func lastEnumeratedOrbitSequence2(c: ℂ) -> Int {
-    return sequence(first: ℂ(0), next: {z in z * z + c}).prefix(while: {$0.normal() < 2}).enumerated().prefix(maxIter).last()!.0 + 1
+    let s = sequence(first: ℂ(0), next: {z in z * z + c}).lazy.prefix(while: {$0.normal() < 2})
+    return s.enumerated().prefix(maxIter).last()!.0 + 1
 }
 
 func lastEnumeratedOrbitSequence3(c: ℂ) -> Int {
-    return sequence(first: ℂ(0), next: {z in z * z + c}).enumerated().prefix(while: {$1.normal() < 2 && $0 < maxIter}).last()!.0 + 1
+    return sequence(first: ℂ(0), next: {z in z * z + c}).enumerated().lazy.prefix(while: {$1.normal() < 2 && $0 < maxIter}).last()!.0 + 1
 }
 
 func lastEnumeratedOrbitSequence4(c: ℂ) -> Int {
@@ -34,7 +36,6 @@ func lastEnumeratedOrbitSequence7(c: ℂ) -> Int {
 func lastEnumeratedOrbitSequence8(c: ℂ) -> Int {
     return sequence(first: ℂ(0), next: {z in z * z + c})._prefix(while: {$0.normal() < 2})._prefix(maxIter)._enumerated().last()!.0 + 1
 }
-
 
 let swiftyComposed = [
     ("lastEnumeratedOrbitSequence     ", lastEnumeratedOrbitSequence),

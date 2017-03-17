@@ -49,7 +49,7 @@ func lastOrbiterEnumerated(c: ℂ) -> Int {
 }
 
 func lastOrbiterEnumerated2(c: ℂ) -> Int {
-    return MandelbrotOrbiter(c).enumerated().prefix(while: {$0.0 < maxIter}).last()!.0 + 1
+    return MandelbrotOrbiter(c).enumerated().lazy.prefix(while: {$0.0 < maxIter}).last()!.0 + 1
 }
 
 func lastOrbiterEnumerated_2(c: ℂ) -> Int {

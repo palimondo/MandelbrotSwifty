@@ -31,7 +31,7 @@ func orbitEnumerated(_ c: ℂ) -> Int {
         guard z.normal() < 2 else {return nil}
         return z * z + c
     })
-    return orbital.enumerated().prefix(while: {$0.0 < maxIter}).last()!.0 + 1
+    return orbital.enumerated().lazy.prefix(while: {$0.0 < maxIter}).last()!.0 + 1
 }
 
 func orbitEnumerated2(_ c: ℂ) -> Int {
@@ -39,7 +39,7 @@ func orbitEnumerated2(_ c: ℂ) -> Int {
         guard z.normal() < 2 else {return nil}
         return z * z + c
     })
-    return orbital.enumerated().prefix(while: {$0.0 < maxIter})._last()!.0 + 1
+    return orbital.enumerated().lazy.prefix(while: {$0.0 < maxIter})._last()!.0 + 1
 }
 
 func orbitEnumerated_2(_ c: ℂ) -> Int {
@@ -55,7 +55,7 @@ func orbit_Enumerated_2(_ c: ℂ) -> Int {
         guard z.normal() < 2 else {return nil}
         return z * z + c
     })
-    return orbital._enumerated().prefix(while: {$0.0 < maxIter}).__last()!.0 + 1
+    return orbital._enumerated().lazy.prefix(while: {$0.0 < maxIter}).__last()!.0 + 1
 }
 
 //func orbitEnumerated3(_ c: ℂ) -> Int {
@@ -70,14 +70,14 @@ func orbitEnumerated3(_ c: ℂ) -> Int {
         guard z.normal() < 2 else {return nil}
         return z * z + c
     })
-        .enumerated()
+        .enumerated().lazy
         .prefix(while: {$0.0 < maxIter})
         ._last()!.0 + 1
 }
 
 func orbitCounter2(_ c: ℂ) -> Int {
     var last: (Int, ℂ) = (0, ℂ(0))
-    for x in sequence(first: ℂ(0), next: {z in z * z + c}).prefix(while: {$0.normal() < 2}).prefix(maxIter).enumerated() {
+    for x in sequence(first: ℂ(0), next: {z in z * z + c}).lazy.prefix(while: {$0.normal() < 2}).prefix(maxIter).enumerated() {
         last = x
     }
     return last.0 + 1
@@ -118,6 +118,7 @@ func orbitalEnumerated_C(_ c: ℂ) -> Int {
         return z * z + c
     })
         .enumerated()
+        .lazy
         .prefix(while: {$0.0 < maxIter})
         .last()!.0 + 1
 }

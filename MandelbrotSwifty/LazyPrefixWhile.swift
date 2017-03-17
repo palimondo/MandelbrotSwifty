@@ -1,3 +1,4 @@
+#if !swift(>=3.1)
 //===--- Iterator & Sequence ----------------------------------------------===//
 
 /// An iterator over the initial elements traversed by a base iterator that
@@ -51,8 +52,8 @@ public struct LazyPrefixWhileSequence<Base : Sequence> : LazySequenceProtocol {
     internal let _predicate: (Base.Iterator.Element) -> Bool
 }
 
-//extension LazySequenceProtocol {
-extension Sequence {
+extension LazySequenceProtocol {
+//extension Sequence {
     /// Returns a lazy sequence of the initial consecutive elements that satisfy
     /// `predicate`.
     ///
@@ -66,3 +67,4 @@ extension Sequence {
         return LazyPrefixWhileSequence(_base: self, predicate: predicate)
     }
 }
+#endif

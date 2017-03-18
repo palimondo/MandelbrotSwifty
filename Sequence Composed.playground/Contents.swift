@@ -2,49 +2,9 @@ enum SeqOp {
     case Prefix, DropFirst, Enumerated, DropWhile
 }
 
-private struct NextMethod<Iterator: IteratorProtocol> {
-    init(for: Iterator) {}
-    
-    typealias _EnumeratedElement = (offset: Int, element: Iterator.Element)
-    typealias _CountingIterator = (count: Int, iterator: Iterator)
-    typealias _CountingSequence = ComposedSequence<Iterator.Element, _CountingIterator>
-    
-    func prefix(state: inout _CountingIterator) -> Iterator.Element? {
-        defer { state.count = state.count &- 1 }
-        return (state.count > 0) ? state.iterator.next() : nil
-    }
-    
-    func dropFirst(state: inout _CountingIterator) -> Iterator.Element? {
-        while state.count > 0 {
-            guard state.iterator.next() != nil else { return nil }
-            state.count = state.count &- 1
-        }
-        return state.iterator.next()
-    }
-    
-    func enumerated(state: inout _CountingIterator) -> _EnumeratedElement? {
-        guard let element = state.iterator.next() else { return nil }
-        defer { state.count += 1 }
-        return (state.count, element)
-    }
-    
-    func dropWhile(state: inout DropWhileIterator<Iterator>) -> Iterator.Element? {
-        guard state.predicateHasFailed else {
-            while let nextElement = state.iterator.next() {
-                guard state.predicate(nextElement) else {
-                    state.predicateHasFailed = true
-                    return nextElement
-                }
-            }
-            return nil // exhausted underlying sequence
-        }
-        return state.iterator.next()
-    }
-}
-
 public struct DropWhileIterator<I: IteratorProtocol> {
     var predicateHasFailed: Bool
-    var predicate: (I.Element) -> Bool
+    let predicate: (I.Element) -> Bool
     var iterator: I
     init(_ _predicateHasFailed: Bool, _ _predicate: @escaping (I.Element) -> Bool, _ _iterator: I) {
         predicateHasFailed = _predicateHasFailed
@@ -75,47 +35,77 @@ public struct ComposedSequence<Element, State> : Sequence, IteratorProtocol {
     let _next: (inout State) -> Element?
     var _done = false
     
-    static func foo<T>(x: T, y: State, z: Element) -> ComposedSequence<Element, State> {
-        return ComposedSequence(.Prefix, y, {_ in return z})
+    init<I : IteratorProtocol>(prefix: Int, _ iterator: I) where Element == I.Element, State == (count: Int, iterator: I) {
+        func _prefix(state: inout State) -> Element? {
+            defer { state.count = state.count &- 1 }
+            return (state.count > 0) ? state.iterator.next() : nil
+        }
+        self.init(.Prefix, (prefix, iterator), _prefix)
+    }
+    
+    init<I : IteratorProtocol>(dropFirst n: Int, _ iterator: I) where Element == I.Element, State == (count: Int, iterator: I) {
+        func _dropFirst(state: inout State) -> Element? {
+            while state.count > 0 {
+                guard state.iterator.next() != nil else { return nil }
+                state.count = state.count &- 1
+            }
+            return state.iterator.next()
+        }
+        self.init(.DropFirst, (n, iterator), _dropFirst)
+    }
+    
+    init<I : IteratorProtocol>(enumerated iterator: I) where Element == (offset: Int, element: I.Element), State == (count: Int, iterator: I) {
+        func _enumerated(state: inout State) -> Element? {
+            guard let element = state.iterator.next() else { return nil }
+            defer { state.count += 1 }
+            return (state.count, element)
+        }
+        self.init(.Enumerated, (0, iterator), _enumerated)
     }
 
-    static func prefix<I : IteratorProtocol>(_ prefix: Int, _ iterator: I) -> ComposedSequence<I.Element, (count: Int, iterator: I)> {
-        return ComposedSequence<I.Element, (count: Int, iterator: I)>(.Prefix, (prefix, iterator), NextMethod(for:iterator).prefix)
-    }
-    static func dropFirst<I : IteratorProtocol>(_ n: Int, _ iterator: I) -> ComposedSequence<I.Element, (count: Int, iterator: I)> {
-        return ComposedSequence<I.Element, (count: Int, iterator: I)>(.DropFirst, (n, iterator), NextMethod(for:iterator).dropFirst)
-    }
-    static func enumerated<I : IteratorProtocol>(_ iterator: I) -> ComposedSequence<(offset: Int, element: I.Element), (count: Int, iterator: I)> {
-        return ComposedSequence<(offset: Int, element: I.Element), (count: Int, iterator: I)>(.Enumerated, (0, iterator), NextMethod(for:iterator).enumerated)
-    }
-    static func drop<I : IteratorProtocol>(while predicate: @escaping (I.Element) -> Bool, _ iterator: I) -> ComposedSequence<I.Element, DropWhileIterator<I>>  {
-        return ComposedSequence<I.Element, DropWhileIterator<I>>(.DropWhile, DropWhileIterator(false, predicate, iterator), NextMethod(for:iterator).dropWhile)
+    enum S { case dropPrefix, defferToBase}
+
+    init<I : IteratorProtocol>(dropWhile predicate: @escaping (I.Element) -> Bool, _ iterator: I) where Element == I.Element, State == DropWhileIterator<I> {
+        func _dropWhile(state: inout State) -> Element? {
+            guard state.predicateHasFailed else {
+                while let nextElement = state.iterator.next() {
+                    guard state.predicate(nextElement) else {
+                        state.predicateHasFailed = true
+                        return nextElement
+                    }
+                }
+                return nil // exhausted underlying sequence
+            }
+            return state.iterator.next()
+        }
+        self.init(.DropWhile, DropWhileIterator(false, predicate, iterator), _dropWhile)
     }
 }
 
 extension Sequence {
-    public typealias _EnumeratedIterator = (count: Int, iterator: Iterator)
-    public typealias _EnumeratedElement = (offset: Int, element: Iterator.Element)
-    public typealias _CountingSequence = ComposedSequence<Iterator.Element, _EnumeratedIterator>
-    public typealias _DropWhileSequence = ComposedSequence<Iterator.Element, DropWhileIterator<Iterator>>
-    public typealias _Predicate = (Iterator.Element) -> Bool
-    
-    typealias _Compose = ComposedSequence<Any, Any>
-    
-    public func _enumerated() -> ComposedSequence<_EnumeratedElement, _EnumeratedIterator> {
-        return _Compose.enumerated(makeIterator())
-    }
+    public typealias _CountingIterator = (count: Int, iterator: Iterator)
+    public typealias _CountingSequence = ComposedSequence<Iterator.Element, _CountingIterator>
     
     public func _dropFirst(_ n: Int) -> _CountingSequence {
-        return _Compose.dropFirst(n, makeIterator())
+        return ComposedSequence(dropFirst: n, makeIterator())
     }
     
     public func _prefix(_ n: Int) -> _CountingSequence {
-        return _Compose.prefix(n, makeIterator())
-}
+        return ComposedSequence(prefix: n, makeIterator())
+    }
     
+    public typealias _Predicate = (Iterator.Element) -> Bool
+    public typealias _DropWhileSequence = ComposedSequence<Iterator.Element, DropWhileIterator<Iterator>>
+
     public func _drop(while predicate: @escaping _Predicate) -> _DropWhileSequence {
-        return _Compose.drop(while: predicate, makeIterator())
+        return ComposedSequence(dropWhile: predicate, makeIterator())
+    }
+
+    public typealias _EnumeratedElement = (offset: Int, element: Iterator.Element)
+    public typealias _EnumeratedSequence = ComposedSequence<_EnumeratedElement, _CountingIterator>
+    
+    public func _enumerated() -> _EnumeratedSequence {
+        return ComposedSequence(enumerated: makeIterator())
     }
 }
 

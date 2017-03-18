@@ -112,6 +112,10 @@ extension Sequence {
         return ComposedSequence(dropWhile: predicate, makeIterator())
     }
 
+    public func _prefix(while predicate: @escaping _Predicate) -> _PredicatedSequence {
+        return ComposedSequence(prefixWhile: predicate, makeIterator())
+    }
+
     public typealias _EnumeratedElement = (offset: Int, element: Iterator.Element)
     public typealias _EnumeratedSequence = ComposedSequence<_EnumeratedElement, _CountingIterator>
     
@@ -132,3 +136,4 @@ Array(ys._prefix(2))
 ys._drop(while:{$0 < 2})
 let predicate: (Int) -> Bool = {$0 < 2}
 Array(ys._drop(while:predicate))
+Array(ys._prefix(while:predicate))

@@ -1,8 +1,8 @@
 enum SeqOp {
-    case Prefix, DropFirst, Enumerated, DropWhile
+    case Prefix, DropFirst, Enumerated, DropWhile, PrefixWhile
 }
 
-public struct DropWhileIterator<I: IteratorProtocol> {
+public struct PredicatedIterator<I: IteratorProtocol> {
     var predicateHasFailed: Bool
     let predicate: (I.Element) -> Bool
     var iterator: I
@@ -63,9 +63,7 @@ public struct ComposedSequence<Element, State> : Sequence, IteratorProtocol {
         self.init(.Enumerated, (0, iterator), _enumerated)
     }
 
-    enum S { case dropPrefix, defferToBase}
-
-    init<I : IteratorProtocol>(dropWhile predicate: @escaping (I.Element) -> Bool, _ iterator: I) where Element == I.Element, State == DropWhileIterator<I> {
+    init<I : IteratorProtocol>(dropWhile predicate: @escaping (I.Element) -> Bool, _ iterator: I) where Element == I.Element, State == PredicatedIterator<I> {
         func _dropWhile(state: inout State) -> Element? {
             guard state.predicateHasFailed else {
                 while let nextElement = state.iterator.next() {
@@ -78,7 +76,20 @@ public struct ComposedSequence<Element, State> : Sequence, IteratorProtocol {
             }
             return state.iterator.next()
         }
-        self.init(.DropWhile, DropWhileIterator(false, predicate, iterator), _dropWhile)
+        self.init(.DropWhile, PredicatedIterator(false, predicate, iterator), _dropWhile)
+    }
+    
+    init<I: IteratorProtocol>(prefixWhile predicate: @escaping (I.Element) -> Bool, _ iterator: I) where Element == I.Element, State == PredicatedIterator<I> {
+        func _prefix(state: inout State) -> Element? {
+            guard let e = state.iterator.next() else { return nil }
+            return state.predicate(e) ? e : nil
+        }
+        self.init(.PrefixWhile, PredicatedIterator(false, predicate, iterator), _prefix)
+    }
+    
+    // TODO test is this would work
+    public func prefix(_ maxLength: Int) -> AnySequence<Element> {
+        return AnySequence(self)
     }
 }
 
@@ -95,9 +106,9 @@ extension Sequence {
     }
     
     public typealias _Predicate = (Iterator.Element) -> Bool
-    public typealias _DropWhileSequence = ComposedSequence<Iterator.Element, DropWhileIterator<Iterator>>
+    public typealias _PredicatedSequence = ComposedSequence<Iterator.Element, PredicatedIterator<Iterator>>
 
-    public func _drop(while predicate: @escaping _Predicate) -> _DropWhileSequence {
+    public func _drop(while predicate: @escaping _Predicate) -> _PredicatedSequence {
         return ComposedSequence(dropWhile: predicate, makeIterator())
     }
 

@@ -1,19 +1,24 @@
 import Cocoa
 
-let maxIter = 16 // asciiGradient.length
-
-let side: (Int, Double, Double) -> StrideTo<Double> = {size, start, end in
-    stride(from: start, to: end, by:(end-start)/Double(size))
-}
-let m = 1
-let w = 640 * m
-let h = 320 * m
-
-let sideX = side(w, -2, 2) // 64 16
-let sideY = side(h, -2, 2) // 32 8
-
 let asciiGradient = Array(" .,:;|!([$O0*%#@".characters)
-let toAscii: (Int) -> Character = { n in asciiGradient[n - 1]}
+//let toAscii: (Int) -> Character = { n in asciiGradient[n - 1]}
+func toAscii(_ n: Int) -> Character { return asciiGradient[n - 1] }
+
+
+let maxIter = asciiGradient.count // 16
+
+//let side: (Int, Double, Double) -> StrideTo<Double> = {size, start, end in
+//    stride(from: start, to: end, by: (end - start) / Double(size))
+//}
+func side(_ size: Int, _ start: Double, _ end : Double) -> StrideTo<Double> {
+    return stride(from: start, to: end, by: (end - start) / Double(size))
+}
+let m = 10
+let w = 64 * m
+let h = 32 * m
+
+let sideX = side(w, -2, 2)
+let sideY = side(h, -2, 2)
 
 let grid = sideY.map({ y in sideX.map({ x in ℂ(x, i:y) }) })
 
@@ -89,16 +94,50 @@ func imperative(c: ℂ) -> Int {
     repeat {
         z = z*z + c
         i += 1
-    } while (z.normal() < 2 && i < maxIter)
+    } while (z.isPotentiallyInSet() && i < maxIter)
     return i
 }
 
+
+func imperativeJulia(z: ℂ) -> Int {
+    var z = z
+    //    var c = ℂ(-0.75) // Sam Marco
+    //    var c = ℂ(-0.391, i:-0.587) // Siegel disk
+    //    var c = ℂ(-0.123, i: 0.745) // Douady's rabbit
+    let c = ℂ(1 - 1.6180339887498948482)
+    var i = 0;
+    repeat {
+        z = z*z + c
+        i += 1
+    } while (z.isPotentiallyInSet() && i < maxIter)
+    return i
+}
+
+func julia(_ c: ℂ) -> (ℂ) -> Int {
+    return { z in
+        return sequence(first: z, next: {z in
+            guard z.isPotentiallyInSet() else {return nil}
+            return z * z + c
+        }).enumerated().lazy.prefix(while: {$0.0 < maxIter}).last()!.0 + 1
+    }
+}
+
+let douadysRabbit: (ℂ) -> Int = julia(ℂ(-0.123, i: 0.745))
+let siegelDisk: (ℂ) -> Int = julia(ℂ(-0.391, i:-0.587))
+let sanMarco: (ℂ) -> Int = julia(ℂ(-0.75))
+let phiThing: (ℂ) -> Int = julia(ℂ(1 - 1.6180339887498948482))
+
 let allRenderers = [("imperative                      ", imperative)]
+//    + [("douadysRabbit                   ", douadysRabbit),
+//       ("siegelDisk                      ", siegelDisk),
+//       ("sanMarco                        ", sanMarco),
+//       ("phiThing                        ", phiThing),
+//       ("imperativeJulia                 ", imperativeJulia)]
     + swiftyFused
     + swiftyCustom
     + [("imperative'                     ", imperative)]
-//    + swiftyComposed
-//    + functional
+    + swiftyComposed
+    + functional
 
 timeLoops(allRenderers)
 

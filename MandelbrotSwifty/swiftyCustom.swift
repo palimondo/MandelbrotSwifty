@@ -5,7 +5,7 @@ struct MandelbrotOrbiter : IteratorProtocol, Sequence {
         c = cc
     }
     mutating func next() -> ℂ? {
-        guard z.normal() < 2 else { return nil }
+        guard z.isPotentiallyInSet() else { return nil }
         z = z*z + c
         return z
     }
@@ -23,7 +23,7 @@ struct MandelbrotOrbitEnumerator : IteratorProtocol, Sequence {
         c = cc
     }
     mutating func next() -> Int? {
-        guard ((z.normal() < 2) && (i < maxIter)) else { return nil }
+        guard (z.isPotentiallyInSet() && (i < maxIter)) else { return nil }
         z = z*z + c
         i += 1
         return i

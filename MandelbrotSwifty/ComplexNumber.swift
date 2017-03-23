@@ -9,10 +9,6 @@ struct ComplexNumber {
         self.Re = real
         self.Im = imaginary
     }
-    
-    func normal() -> Double {
-        return Re * Re + Im * Im
-    }
 }
 
 typealias ℂ = ComplexNumber
@@ -24,4 +20,10 @@ func + (x: ℂ, y: ℂ) -> ℂ {
 func * (x: ℂ, y: ℂ) -> ℂ {
     let ((a, b), (c, d)) = ((x.Re, x.Im), (y.Re, y.Im))
     return ℂ(a*c - b*d, i:b*c + a*d)
+}
+
+extension ℂ {
+    func isPotentiallyInSet() -> Bool {
+        return (Re * Re + Im * Im) <= 4
+    }
 }

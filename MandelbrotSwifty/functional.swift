@@ -3,13 +3,13 @@ let quadrat: (ℂ, ℂ) -> ℂ = {c, z in z*z + c}
 let orbit: (ℂ) -> AnyIterator<ℂ> = {c in iterate(curry(quadrat)(c), x0: ℂ(0))}
 
 let iterations: (AnyIterator<ℂ>) -> Int = {seq in
-    length(takeWhile({z in z.normal() < 2}, source: take(maxIter, source: seq)))
+    length(takeWhile({z in z.isPotentiallyInSet()}, source: take(maxIter, source: seq)))
 }
 let _iterations: (AnyIterator<ℂ>) -> Int = {seq in
-    length(takeWhile({z in z.normal() < 2}, source: seq.prefix(maxIter)))
+    length(takeWhile({z in z.isPotentiallyInSet()}, source: seq.prefix(maxIter)))
 }
 let __iterations: (AnyIterator<ℂ>) -> Int = {seq in
-    seq.prefix(maxIter).lazy.prefix(while: {z in z.normal() < 2}).reduce(0, {i, _ in i + 1})
+    seq.prefix(maxIter).lazy.prefix(while: {z in z.isPotentiallyInSet()}).reduce(0, {i, _ in i + 1})
 }
 
 //let _orbit = {z in sequence(first: ℂ(0), next: curry({c, z in z*z + c})(z))}

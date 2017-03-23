@@ -1,6 +1,7 @@
 extension Sequence {
-    func _length() -> Int {
-        return reduce(0, {$0.0 + 1})
+    
+    public func count() -> Int {
+        return reduce(0, {i, _ in i + 1})
     }
     
     func last() -> Iterator.Element?

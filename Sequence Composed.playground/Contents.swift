@@ -1,7 +1,3 @@
-enum SeqOp {
-    case Prefix, DropFirst, Enumerated, DropWhile, PrefixWhile
-}
-
 public struct PredicatedIterator<I: IteratorProtocol> {
     var predicateHasFailed: Bool
     let predicate: (I.Element) -> Bool
@@ -14,6 +10,10 @@ public struct PredicatedIterator<I: IteratorProtocol> {
 }
 
 public struct ComposedSequence<Element, State> : Sequence, IteratorProtocol {
+    enum SeqOp {
+        case Prefix, DropFirst, Enumerated, DropWhile, PrefixWhile
+    }
+
     public mutating func next() -> Element? {
         guard !_done else { return nil }
         if let elt = _next(&_state) {

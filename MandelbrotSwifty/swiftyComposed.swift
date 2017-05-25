@@ -13,6 +13,12 @@ func lastEnumeratedOrbitSequence3(c: ℂ) -> Int {
     return sequence(first: ℂ(0), next: {z in z * z + c}).enumerated().lazy.prefix(while: {$1.isPotentiallyInSet() && $0 < maxIter}).last()!.0 + 1
 }
 
+extension Sequence {
+    func zipped<S>(with otherSequence: S) -> Zip2Sequence<Self, S> where S: Sequence {
+        return zip (self, otherSequence)
+    }
+}
+
 func lastEnumeratedOrbitSequence4(c: ℂ) -> Int {
     return sequence(first: ℂ(0), next: {z in z * z + c}).enumerated()._prefix(while: {$1.isPotentiallyInSet() && $0 < maxIter}).last()!.0 + 1
 }

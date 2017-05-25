@@ -59,6 +59,10 @@ func last<S: Sequence>(_ sequence: S) -> S.Iterator.Element {
 // ripped-off from _ClosureBasedIterator
 public struct _AnyIterator<Element> : IteratorProtocol, Sequence {
     let _next: () -> Element?
+    public init<I : IteratorProtocol>(_ base: I) where I.Element == Element {
+        var _base = base
+        _next = { return _base.next() }
+    }
     public init(_ next: @escaping () -> Element?) {
         _next = next
     }

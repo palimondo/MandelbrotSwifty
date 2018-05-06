@@ -39,17 +39,17 @@ extension SeqOp : IteratorProtocol {
         case .Empty:
             return nil
             
-        case .Base(var iterator):
+        case .Base(let iterator):
             let elm = iterator.next()
             self = .Base(iterator)
             return elm
-        case .Prefix(var iterator, var count):
+        case .Prefix(let iterator, let count):
             var state : _CountingIterator = (iterator, count)
             guard let elm = _nextPrefixCountDown(state: &state) else { return empty() }
             self = .Prefix(state.iterator, state.count)
             return elm
             
-        case .DropFirst(var iterator, var count):
+        case .DropFirst(let iterator, let count):
             var state : _CountingIterator = (iterator, count)
             guard let elm = _nextDropFirst(state: &state) else { return empty() }
             self = .DropFirst(state.iterator, state.count)
@@ -108,6 +108,7 @@ xx.next()
 xx.next()
 xx.next()
 xx.next()
+xx.next()
 
 Array(SeqOp([1,2,3]))
 SeqOp([1,2,3])
@@ -119,7 +120,8 @@ Array([1,2,3]._prefix(2)._dropFirst(1))
 [1,2,3]._prefix(2)._dropFirst(1)
 Array([1,2,3]._dropFirst(1)._prefix(1))
 [1,2,3]._dropFirst(1)._prefix(1)
+Array([1,2,3]._dropFirst(1)._prefix(1))
 
-
-
+let yy = [1,2,3,4,5,6,7,8,9]._prefix(6)._dropFirst(4)
+Array(yy)
 

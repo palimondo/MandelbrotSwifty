@@ -1,6 +1,6 @@
 import Cocoa
 
-let asciiGradient = Array(" .,:;|!([$O0*%#@".characters)
+let asciiGradient = Array(" .,:;|!([$O0*%#@")
 //let toAscii: (Int) -> Character = { n in asciiGradient[n - 1]}
 func toAscii(_ n: Int) -> Character { return asciiGradient[n - 1] }
 
@@ -48,7 +48,7 @@ func timeLoops(_ renderers: [(String, (ℂ) -> Int)]) {
     print("---Timing...")
     for (name, renderer) in renderers {
         let (art, timing) = timeRendering(renderer)
-        assert(art.characters.count > 2000)
+        assert(art.count > 2000)
         print(String(format:"\(name) \t %.6fs", timing))
         timedLoops.append((name, timing))
     }
@@ -133,9 +133,9 @@ let allRenderers = [("imperative                      ", imperative)]
 //       ("sanMarco                        ", sanMarco),
 //       ("phiThing                        ", phiThing),
 //       ("imperativeJulia                 ", imperativeJulia)]
-    + swiftyFused
-    + swiftyCustom
-    + [("imperative'                     ", imperative)]
+//    + swiftyFused
+//    + swiftyCustom
+//    + [("imperative'                     ", imperative)]
     + swiftyComposed
     + functional
 

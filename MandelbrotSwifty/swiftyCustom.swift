@@ -77,15 +77,15 @@ func orbitEnumerator__Last(c: ℂ) -> Int {
 }
 
 let swiftyCustom = [
-//    ("reduceOrbiter                   ", reduceOrbiter),
-//    ("orbiterLength                   ", orbiterLength),
+    ("reduceOrbiter                   ", reduceOrbiter),
+    ("orbiterLength                   ", orbiterLength),
     
-//    ("lastEnumeratedOrbiter           ", lastEnumeratedOrbiter),
-//    ("lastOrbiterEnumerated           ", lastOrbiterEnumerated),
+    ("lastEnumeratedOrbiter           ", lastEnumeratedOrbiter),
+    ("lastOrbiterEnumerated           ", lastOrbiterEnumerated),
 
     ("lastOrbiterEnumerated2          ", lastOrbiterEnumerated2),
     ("lastOrbiterEnumerated_2         ", lastOrbiterEnumerated_2),
-//    ("maxEnumeratedOrbiter            ", maxEnumeratedOrbiter),
+    ("maxEnumeratedOrbiter            ", maxEnumeratedOrbiter),
     ("lastOrbitEnumerator             ", lastOrbitEnumerator),
     ("orbitEnumeratorLast             ", orbitEnumeratorLast),
     ("orbitEnumerator_Last            ", orbitEnumerator_Last),

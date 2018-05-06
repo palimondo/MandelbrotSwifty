@@ -5,27 +5,14 @@ let ys = stride(from: 4, through: 1, by: -1)
 let zs: Array<Int> = []
 Array(ys)
 
-
-//struct _AnyIterator<Element> : IteratorProtocol, Sequence {
-//    let _next: () -> Element?
-//    func next() -> Element? {
-//        return _next()
-//    }
-//}
-
-//struct _AnySequence<Element> : Sequence {
-//    let _makeIterator: () -> Iterator
-//}
-
-
 // Drop First
-/*
+
 Array(ys.dropFirst(2))
 
 extension Sequence {
-    
+ 
     public typealias _EnumeratedIterator = (count: Int, iterator: Iterator)
-    
+ 
     public func _dropFirst(_ n: Int) ->
         UnfoldSequence<Iterator.Element, _EnumeratedIterator> {
             return sequence(state: (n, makeIterator()), next: {
@@ -37,7 +24,7 @@ extension Sequence {
                 return state.iterator.next()
             })
     }
-    
+ 
     public func __dropFirst(_ n: Int) ->
         UnfoldSequence<Iterator.Element, _EnumeratedIterator> {
             func dropNext(state: inout _EnumeratedIterator) -> Iterator.Element? {
@@ -49,10 +36,24 @@ extension Sequence {
             }
             return sequence(state: (n, makeIterator()), next: dropNext)
     }
+    
+    private func dropNext(state: inout _EnumeratedIterator) -> Iterator.Element? {
+        while state.count > 0 {
+            guard state.iterator.next() != nil else { return nil }
+            state.count -= 1
+        }
+        return state.iterator.next()
+    }
+
+    public func ___dropFirst(_ n: Int) ->
+        UnfoldSequence<Iterator.Element, _EnumeratedIterator> {
+           return sequence(state: (n, makeIterator()), next: dropNext)
+    }
 }
 Array(ys._dropFirst(2))
 Array(ys.__dropFirst(2))
-*/
+Array(ys.___dropFirst(2))
+
 
 // Drop While
 /*

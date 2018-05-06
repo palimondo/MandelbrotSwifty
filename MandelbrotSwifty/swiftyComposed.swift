@@ -4,6 +4,21 @@ func lastEnumeratedOrbitSequence(c: ℂ) -> Int {
     return s.prefix(maxIter).enumerated().last()!.0 + 1
 }
 
+func countedOrbitSequence(c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in z * z + c})
+        .prefix(while: {$0.isPotentiallyInSet()}) // eager - endless loop
+        .prefix(maxIter)
+        .count()
+}
+
+func countedOrbitSequenceLazy(c: ℂ) -> Int {
+    let s = sequence(first: ℂ(0), next: {z in z * z + c}).lazy
+    return s
+        .prefix(while: {$0.isPotentiallyInSet()})
+        .prefix(maxIter)
+        .count()
+}
+
 func lastEnumeratedOrbitSequence2(c: ℂ) -> Int {
     let s = sequence(first: ℂ(0), next: {z in z * z + c}).lazy.prefix(while: {$0.isPotentiallyInSet()})
     return s.enumerated().prefix(maxIter).last()!.0 + 1
@@ -50,7 +65,9 @@ let swiftyComposed = [
     ("lastEnumeratedOrbitSequence4    ", lastEnumeratedOrbitSequence4),
     //    ("lastEnumeratedOrbitSequence4Len ", lastEnumeratedOrbitSequence4Length),
     ("lastEnumeratedOrbitSequence5    ", lastEnumeratedOrbitSequence5),
-    //    ("lastEnumeratedOrbitSequence6    ", lastEnumeratedOrbitSequence6),
+    ("lastEnumeratedOrbitSequence6    ", lastEnumeratedOrbitSequence6),
     ("lastEnumeratedOrbitSequence7    ", lastEnumeratedOrbitSequence7),
-    //    ("lastEnumeratedOrbitSequence8    ", lastEnumeratedOrbitSequence8),
+    ("lastEnumeratedOrbitSequence8    ", lastEnumeratedOrbitSequence8),
+//    ("countedOrbitSequence            ", countedOrbitSequence),
+    ("countedOrbitSequenceLazy        ", countedOrbitSequenceLazy),
 ]

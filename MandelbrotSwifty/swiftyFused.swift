@@ -70,7 +70,11 @@ func orbitEnumerated3(_ c: ℂ) -> Int {
 
 func orbitCounter2(_ c: ℂ) -> Int {
     var last: (Int, ℂ) = (0, ℂ(0))
-    for x in sequence(first: ℂ(0), next: {z in z * z + c}).lazy.prefix(while: {$0.isPotentiallyInSet()}).prefix(maxIter).enumerated() {
+    let s = sequence(first: ℂ(0), next: {z in z * z + c}).lazy
+    for x in s
+        .prefix(while: {$0.isPotentiallyInSet()})
+        .prefix(maxIter)
+        .enumerated() {
         last = x
     }
     return last.0 + 1

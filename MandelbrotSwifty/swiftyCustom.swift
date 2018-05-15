@@ -1,18 +1,14 @@
 struct MandelbrotOrbiter : IteratorProtocol, Sequence {
     let c : ℂ;
     var z = ℂ(0)
-    init(_ cc: ℂ) {
-        c = cc
+    init(_ _c: ℂ) {
+        c = _c
     }
     mutating func next() -> ℂ? {
         guard z.isPotentiallyInSet() else { return nil }
         z = z*z + c
         return z
     }
-//    public mutating func makeIterator() -> MandelbrotOrbiter {
-//        z = ℂ(0)
-//        return self
-//    }
 }
 
 struct MandelbrotOrbitEnumerator : IteratorProtocol, Sequence {

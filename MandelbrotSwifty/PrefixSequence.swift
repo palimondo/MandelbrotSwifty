@@ -17,6 +17,7 @@ extension Sequence {
     
 //    public typealias _EnumeratedIterator = (count: Int, iterator: Iterator)
     
+    /// Prefix defined with `sequence(state:_EnumeratedIterator)` and inline closure
     public func _prefix(_ maxLength: Int) -> UnfoldSequence<Iterator.Element, _EnumeratedIterator> {
         return sequence(state: (maxLength, makeIterator()), next: {
             (state: inout _EnumeratedIterator) -> Iterator.Element? in
@@ -29,11 +30,22 @@ extension Sequence {
         defer { state.count = state.count &- 1 }
         return (state.count > 0) ? state.iterator.next() : nil
     }
-    
+
+    /// Prefix defined with `sequence(state:_EnumeratedIterator)` and `countDownNext` function with defer
     public func __prefix(_ maxLength: Int) -> UnfoldSequence<Iterator.Element, _EnumeratedIterator> {
         return sequence(state: (maxLength, makeIterator()), next: countDownNext)
     }
-
+    
+    private func countDownNext_(state: inout _EnumeratedIterator) -> Iterator.Element? {
+        state.count = state.count &- 1
+        return (0 <= state.count) ? state.iterator.next() : nil // <= because it counts down one step earlier
+    }
+    
+    /// Prefix defined with `sequence(state:_EnumeratedIterator)` and `countDownNext` function without defer
+    public func __prefix_(_ maxLength: Int) -> UnfoldSequence<Iterator.Element, _EnumeratedIterator> {
+        return sequence(state: (maxLength, makeIterator()), next: countDownNext_)
+    }
+    
     public func ___prefix(_ maxLength: Int) ->
         _AnyIterator<Iterator.Element> {
             var iterator = makeIterator()

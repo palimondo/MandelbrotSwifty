@@ -1,9 +1,19 @@
+public struct Stats<T>{
+    public var i = 0
+    public init() {}
+    public mutating func inc() { i = i + 1 }
+    public static func count<T>(_ counter: inout Stats, _: T) { counter.inc() }
+}
+
 extension Sequence {
     
+    @inline(__always)
     public func count() -> Int {
         return reduce(0, {i, _ in i + 1})
+//        return reduce(into: Stats<Element>(), Stats.count).i
     }
     
+    @inline(__always)
     func last() -> Iterator.Element?
     {
         var i = makeIterator()
@@ -16,14 +26,12 @@ extension Sequence {
         return lastOne
     }
     
-//    @_transparent
     @inline(__always)
     func _last() -> Iterator.Element? {
         var i = makeIterator()
         return reduce(i.next(), {$1})
     }
     
-//    @_transparent
     @inline(__always)
     func __last() -> Iterator.Element? {
         var i = makeIterator()

@@ -13,7 +13,7 @@ let maxIter = asciiGradient.count // 16
 func side(_ size: Int, _ start: Double, _ end : Double) -> StrideTo<Double> {
     return stride(from: start, to: end, by: (end - start) / Double(size))
 }
-let m = 10
+let m = 10 // use 1 when printing art
 let w = 64 * m
 let h = 32 * m
 
@@ -50,6 +50,7 @@ func timeLoops(_ renderers: [(String, (ℂ) -> Int)]) {
         let (art, timing) = timeRendering(renderer)
         assert(art.count > 2000)
         print(String(format:"\(name) \t %.6fs", timing))
+//        print(art)
         timedLoops.append((name, timing))
     }
     print("---Results:")
@@ -122,22 +123,49 @@ func julia(_ c: ℂ) -> (ℂ) -> Int {
     }
 }
 
+func mandelbrot(_ c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in
+        guard z.isPotentiallyInSet() else {return nil}
+        return z * z + c
+    }).enumerated().lazy.prefix(while: {$0.0 < maxIter}).last()!.0 + 1
+}
+
+func mandelbrot_(_ c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in
+        guard z.isPotentiallyInSet() else {return nil}
+        return z * z + c
+    }).lazy.prefix(maxIter).count()
+}
+
+func mandelbrot__(_ c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in
+        guard z.isPotentiallyInSet() else {return nil}
+        return z * z + c
+    }).__prefix_(maxIter).count()
+}
+
+
 let douadysRabbit: (ℂ) -> Int = julia(ℂ(-0.123, i: 0.745))
 let siegelDisk: (ℂ) -> Int = julia(ℂ(-0.391, i:-0.587))
 let sanMarco: (ℂ) -> Int = julia(ℂ(-0.75))
 let phiThing: (ℂ) -> Int = julia(ℂ(1 - 1.6180339887498948482))
 
-let allRenderers = [("imperative                      ", imperative)]
-//    + [("douadysRabbit                   ", douadysRabbit),
+let allRenderers =
+    [("imperative                      ", imperative)]
+//    + [
+//        ("douadysRabbit                   ", douadysRabbit),
 //       ("siegelDisk                      ", siegelDisk),
 //       ("sanMarco                        ", sanMarco),
 //       ("phiThing                        ", phiThing),
 //       ("imperativeJulia                 ", imperativeJulia)]
-//    + swiftyFused
-//    + swiftyCustom
-//    + [("imperative'                     ", imperative)]
+    + [("mandelbrot                      ", mandelbrot),
+       ("mandelbrot_                     ", mandelbrot_),
+       ("mandelbrot__                    ", mandelbrot__)]
+    + swiftyFused
+    + swiftyCustom
     + swiftyComposed
-    + functional
+//    + functional
+    + [("imperative'                     ", imperative)]
 
 timeLoops(allRenderers)
 

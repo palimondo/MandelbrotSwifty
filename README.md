@@ -7,4 +7,6 @@ This is an exploration of the performance of various semantically equivalent exp
 
 ## ToDo
 * ✅<del>Migrate to Swift 4</del>
+* Systematize the tested variant generation
 * Evaluate the current state of performance
+* Extract representative styles into set of benchmarks for the Swift Benchark Suite

@@ -23,6 +23,7 @@ func * (x: ℂ, y: ℂ) -> ℂ {
 }
 
 extension ℂ {
+    @inline(__always)
     func isPotentiallyInSet() -> Bool {
         return (Re * Re + Im * Im) <= 4
     }

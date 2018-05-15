@@ -108,18 +108,18 @@ func __orbital__Enumerated(_ c: ℂ) -> Int {
 }
 
 let swiftyFused = [
-    ("orbitCounter                    ", orbitCounter),
-    ("_orbitCounter                   ", _orbitCounter),
-    ("orbitEnumerated                 ", orbitEnumerated),
-    ("orbitEnumerated2                ", orbitEnumerated2),
-    ("orbitEnumerated_2               ", orbitEnumerated_2),
-    ("orbit_Enumerated_2              ", orbit_Enumerated_2),
-    ("orbitEnumerated3                ", orbitEnumerated3),
+//    ("orbitCounter                    ", orbitCounter),
+//    ("_orbitCounter                   ", _orbitCounter),
+//    ("orbitEnumerated                 ", orbitEnumerated),
+//    ("orbitEnumerated2                ", orbitEnumerated2),
+//    ("orbitEnumerated_2               ", orbitEnumerated_2),
+//    ("orbit_Enumerated_2              ", orbit_Enumerated_2),
+//    ("orbitEnumerated3                ", orbitEnumerated3),
 //    ("orbitCounter2                   ", orbitCounter2),
 //    ("orbitCounter3                   ", orbitCounter3),
     ("orbitalEnumerated_C             ", orbitalEnumerated_C),
     ("orbital__Enumerated             ", orbital__Enumerated),
-    ("__orbital__Enumerated           ", __orbital__Enumerated),
+//    ("__orbital__Enumerated           ", __orbital__Enumerated),
 ]
 
 func orbitalEnumerated_C(_ c: ℂ) -> Int {

@@ -10,6 +10,7 @@ public struct PredicatedIterator<I: IteratorProtocol> {
 }
 
 extension Sequence {
+    /// Prefix defined with `sequence` and predicate captured in the inline closure
     public func _prefix (
         while predicate: @escaping (Self.Iterator.Element) -> Bool) ->
         UnfoldSequence<Self.Iterator.Element, Self.Iterator> {
@@ -23,6 +24,7 @@ extension Sequence {
     public typealias Predicate = (Iterator.Element) -> Bool
 //    public typealias PredicatedIterator = (predicate: Predicate, iterator: Self.Iterator)
     
+    /// Prefix defined with `sequence`, inlined closure and predicate stored in `PredicatedIterator`
     public func __prefix (while predicate: @escaping Predicate) ->
         UnfoldSequence<Self.Iterator.Element, PredicatedIterator<Iterator>> {
             return sequence(state: PredicatedIterator(predicate, makeIterator()), next: {
@@ -36,12 +38,13 @@ extension Sequence {
         guard let e = state.iterator.next() else { return nil }
         return state.predicate(e) ? e : nil
     }
-    
+    /// Prefix defined with `PredicatedIterator` and `nextMatch` function
     public func ___prefix (while predicate: @escaping Predicate) ->
         UnfoldSequence<Self.Iterator.Element, PredicatedIterator<Iterator>> {
             return sequence(state: PredicatedIterator(predicate, makeIterator()), next: nextMatch)
     }
 
+    /// Prefix defined with inline `_AnyIterator`
     public func ____prefix (while predicate: @escaping Predicate) ->
         _AnyIterator<Iterator.Element> {
             var iterator = makeIterator()

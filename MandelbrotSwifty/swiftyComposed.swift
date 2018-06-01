@@ -26,19 +26,19 @@ func isPotentiallyInSet(i: Int, c: ℂ) -> Bool {
 }
 
 func slpwpel(c: ℂ) -> Int {
-    let s = sequence(first: ℂ(0), next: {z in z * z + c})
+    return sequence(first: ℂ(0), next: {z in z * z + c})
         .lazy
         .prefix(while: {$0.isPotentiallyInSet()})
-    return s.prefix(maxIter) // TODO report bug: ambiguous #$%
+        .prefix(maxIter)
         .enumerated()
         .last()!.0 + 1
 }
 
 func slpwepl(c: ℂ) -> Int {
-    let s = sequence(first: ℂ(0), next: {z in z * z + c})
+    return sequence(first: ℂ(0), next: {z in z * z + c})
         .lazy
-        .prefix(while: {$0.isPotentiallyInSet()})  // TODO report bug: ambiguous #$%
-    return s.enumerated()
+        .prefix(while: {$0.isPotentiallyInSet()})
+        .enumerated()
         .prefix(maxIter)
         .last()!.0 + 1
 }
@@ -134,8 +134,8 @@ func s_pw_p_el(c: ℂ) -> Int {
 }
 
 func slpwpc(c: ℂ) -> Int {
-    let s = sequence(first: ℂ(0), next: {z in z * z + c}).lazy
-    return s
+    return sequence(first: ℂ(0), next: {z in z * z + c})
+        .lazy
         .prefix(while: {$0.isPotentiallyInSet()})
         .prefix(maxIter)
         .count()
@@ -195,6 +195,30 @@ func _slppwc(c: ℂ) -> Int {
         .count()
 }
 
+func slpLpwc(c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in z * z + c})
+        .lazy
+        .prefixL(maxIter)
+        .prefix(while: {$0.isPotentiallyInSet()})
+        .count()
+}
+
+func slpwpLc(c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in z * z + c})
+        .lazy
+        .prefix(while: {$0.isPotentiallyInSet()})
+        .prefixL(maxIter)
+        .count()
+}
+
+func _slpLpwc(c: ℂ) -> Int {
+    return sequence(state: (ℂ(0), c), next: orbit)
+        .lazy
+        .prefixL(maxIter)
+        .prefix(while: {$0.isPotentiallyInSet()})
+        .count()
+}
+
 func _sl_pw_pc(c: ℂ) -> Int {
     return sequence(state: (ℂ(0), c), next: orbit)
         .lazy
@@ -214,6 +238,14 @@ func _sl_p_pwc(c: ℂ) -> Int {
     return sequence(state: (ℂ(0), c), next: orbit)
         .lazy
         ._prefix(maxIter)
+        ._prefix(while: {$0.isPotentiallyInSet()})
+        .count()
+}
+
+func _slpL_pwc(c: ℂ) -> Int {
+    return sequence(state: (ℂ(0), c), next: orbit)
+        .lazy
+        .prefixL(maxIter)
         ._prefix(while: {$0.isPotentiallyInSet()})
         .count()
 }
@@ -274,6 +306,13 @@ func _s_e____pwsc(c: ℂ) -> Int {
         .count()
 }
 
+func _s_e_____pwsc(c: ℂ) -> Int {
+    return quadraticOrbit(c: c)
+        .__enumerated_()
+        .____prefix(while: isPotentiallyInSet)
+        .count()
+}
+
 func sl__pw__pc(c: ℂ) -> Int {
     return sequence(first: ℂ(0), next: {z in z * z + c})
         .lazy
@@ -329,42 +368,83 @@ func sl__pws___pc(c: ℂ) -> Int {
         .count()
 }
 
+func sl____pw___pc(c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in z * z + c})
+        .lazy
+        .____prefix(while: {$0.isPotentiallyInSet()})
+        .___prefix(maxIter)
+        .count()
+}
+
+
+func sl____pws___pc(c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in z * z + c})
+        .lazy
+        .____prefix(while: isPotentiallyInSet)
+        .___prefix(maxIter)
+        .count()
+}
+
+func _sl____pw___pc(c: ℂ) -> Int {
+    return quadraticOrbit(c: c)
+        .lazy
+        .____prefix(while: {$0.isPotentiallyInSet()})
+        .___prefix(maxIter)
+        .count()
+}
+
+
+func _sl____pws___pc(c: ℂ) -> Int {
+    return quadraticOrbit(c: c)
+        .lazy
+        .____prefix(while: isPotentiallyInSet)
+        .___prefix(maxIter)
+        .count()
+}
 
 
 let swiftyComposed = [
-//    ("slpwpel                         ", slpwpel),
-//    ("slpwepl                         ", slpwepl),
-//    ("selpwl                          ", selpwl),
-//    ("se_pwl                          ", se_pwl),
+    ("slpwpel                         ", slpwpel),
+    ("slpwepl                         ", slpwepl),
+    ("selpwl                          ", selpwl),
+    ("se_pwl                          ", se_pwl),
     ("selpwc                          ", selpwc),
     ("_selpwc                         ", _selpwc),
     ("selpwsc                         ", selpwsc),
     ("se_pwsc                         ", se_pwsc),
-//    ("se_pwc                          ", se_pwc),
-//    ("lse_pw                          ", lse_pw),
-//    ("s__e__pwl                       ", s__e__pwl),
-//    ("s__pw__p__el                    ", s__pw__p__el),
-//    ("s_e_pwl                         ", s_e_pwl),
-//    ("s_pw_p_el                       ", s_pw_p_el),
-//    ("slpwpc                          ", slpwpc),
-//    ("s_pw_pc                         ", s_pw_pc),
+    ("se_pwc                          ", se_pwc),
+    ("lse_pw                          ", lse_pw),
+    ("s__e__pwl                       ", s__e__pwl),
+    ("s__pw__p__el                    ", s__pw__p__el),
+    ("s_e_pwl                         ", s_e_pwl),
+    ("s_pw_p_el                       ", s_pw_p_el),
+    ("slpwpc                          ", slpwpc),
+    ("s_pw_pc                         ", s_pw_pc),
     ("sl_pw_pc                        ", sl_pw_pc),
     ("sl_pw__p_c                      ", sl_pw__p_c),
     ("_s_pw__p_c                      ", _s_pw__p_c),
     ("_s__pw__p_c                     ", _s__pw__p_c),
-//    ("_slpwpc                         ", _slpwpc),
-//    ("_sl_pw_pc                       ", _sl_pw_pc),
-//    ("slppwc                          ", slppwc),
-//    ("_slppwc                         ", _slppwc),
+    ("_slpwpc                         ", _slpwpc),
+    ("slpLpwc                         ", slpLpwc),
+    ("slpwpLc                         ", slpwpLc),
+    ("_slpLpwc                        ", _slpLpwc),
+    ("_sl_pw_pc                       ", _sl_pw_pc),
+    ("slppwc                          ", slppwc),
+    ("_slppwc                         ", _slppwc),
     ("_sl_p_pwc                       ", _sl_p_pwc),
-//    ("s_p_pwc                         ", s_p_pwc),
-//    ("sl__pw__pc                      ", sl__pw__pc),
-//    ("sl__pw___pc                     ", sl__pw___pc),
+    ("_slpL_pwc                       ", _slpL_pwc),
+    ("s_p_pwc                         ", s_p_pwc),
+    ("sl__pw__pc                      ", sl__pw__pc),
+    ("sl__pw___pc                     ", sl__pw___pc),
     ("sl__pws__pc                     ", sl__pws__pc),
     ("sl__pws__p_c                    ", sl__pws__p_c),
     ("_s__pws__pc                     ", _s__pws__pc),
     ("_s__pws__p_c                    ", _s__pws__p_c),
-//    ("sl__pws___pc                    ", sl__pws___pc),
+    ("sl__pws___pc                    ", sl__pws___pc),
+    ("sl____pw___pc                   ", sl____pw___pc),
+    ("sl____pws___pc                  ", sl____pws___pc),
+    ("_sl____pw___pc                  ", _sl____pw___pc),
+    ("_sl____pws___pc                 ", _sl____pws___pc),
     ("s_e_pwc                         ", s_e_pwc),
     ("s_e_pwsc                        ", s_e_pwsc),
     ("_s_e_pwc                        ", _s_e_pwc),
@@ -372,5 +452,6 @@ let swiftyComposed = [
     ("_s_e___pwc                      ", _s_e___pwc),
     ("_s_e___pwsc                     ", _s_e___pwsc),
     ("_s_e____pwsc                    ", _s_e____pwsc),
+    ("_s_e_____pwsc                   ", _s_e_____pwsc),
     // TODO create variant with __enumerated (sequence based), that fuses like se_pwl
 ]

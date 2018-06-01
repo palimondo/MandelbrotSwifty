@@ -137,11 +137,159 @@ func mandelbrot_(_ c: ℂ) -> Int {
     }).lazy.prefix(maxIter).count()
 }
 
-func mandelbrot__(_ c: ℂ) -> Int {
+func mandelbrotL(_ c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in
+        guard z.isPotentiallyInSet() else {return nil}
+        return z * z + c
+    }).lazy.prefixL(maxIter).count()
+}
+
+func mandelbrotE(_ c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in
+        guard z.isPotentiallyInSet() else {return nil}
+        return z * z + c
+    }).prefix(maxIter).count()
+}
+
+func mandelbrot__i(_ c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in
+        guard z.isPotentiallyInSet() else {return nil}
+        return z * z + c
+    })._prefix(maxIter).count()
+}
+
+func mandelbrot__sd(_ c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in
+        guard z.isPotentiallyInSet() else {return nil}
+        return z * z + c
+    }).__prefix(maxIter).count()
+}
+
+func mandelbrot__s(_ c: ℂ) -> Int {
     return sequence(first: ℂ(0), next: {z in
         guard z.isPotentiallyInSet() else {return nil}
         return z * z + c
     }).__prefix_(maxIter).count()
+}
+
+func mandelbrot__a(_ c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in
+        guard z.isPotentiallyInSet() else {return nil}
+        return z * z + c
+    }).___prefix(maxIter).count()
+}
+
+func mandelbrotAI(_ c: ℂ) -> Int {
+    return sequence(first: ℂ(0), next: {z in
+        guard z.isPotentiallyInSet() else {return nil}
+        return z * z + c
+    }).prefixAI(maxIter).count()
+}
+
+func mandelbrotS(_ c: ℂ) -> Int {
+    return sequence(state: (ℂ(0), c), next: {
+        (state: inout OrbitState) -> ℂ? in
+        let (z, c) = state
+        guard z.isPotentiallyInSet() else {return nil}
+        state.z = z * z + c
+        return z
+    }).prefix(maxIter).count()
+}
+
+func mandelbrotS__i(_ c: ℂ) -> Int {
+    return sequence(state: (ℂ(0), c), next: {
+        (state: inout OrbitState) -> ℂ? in
+        let (z, c) = state
+        guard z.isPotentiallyInSet() else {return nil}
+        state.z = z * z + c
+        return z
+    })._prefix(maxIter).count()
+}
+
+func mandelbrotS__sd(_ c: ℂ) -> Int {
+    return sequence(state: (ℂ(0), c), next: {
+        (state: inout OrbitState) -> ℂ? in
+        let (z, c) = state
+        guard z.isPotentiallyInSet() else {return nil}
+        state.z = z * z + c
+        return z
+    }).__prefix(maxIter).count()
+}
+
+func mandelbrotS__a(_ c: ℂ) -> Int {
+    return sequence(state: (ℂ(0), c), next: {
+        (state: inout OrbitState) -> ℂ? in
+        let (z, c) = state
+        guard z.isPotentiallyInSet() else {return nil}
+        state.z = z * z + c
+        return z
+    }).___prefix(maxIter).count()
+}
+
+func mandelbrotSAI(_ c: ℂ) -> Int {
+    return sequence(state: (ℂ(0), c), next: {
+        (state: inout OrbitState) -> ℂ? in
+        let (z, c) = state
+        guard z.isPotentiallyInSet() else {return nil}
+        state.z = z * z + c
+        return z
+    }).prefixAI(maxIter).count()
+}
+
+func mandelbrotS__s(_ c: ℂ) -> Int {
+    return sequence(state: (ℂ(0), c), next: {
+        (state: inout OrbitState) -> ℂ? in
+        let (z, c) = state
+        guard z.isPotentiallyInSet() else {return nil}
+        state.z = z * z + c
+        return z
+    }).__prefix_(maxIter).count()
+}
+
+func mandelbrotSL(_ c: ℂ) -> Int {
+    return sequence(state: (ℂ(0), c), next: {
+        (state: inout OrbitState) -> ℂ? in
+        let (z, c) = state
+        guard z.isPotentiallyInSet() else {return nil}
+        state.z = z * z + c
+        return z
+    }).lazy.prefixL(maxIter).count()
+}
+
+//typealias OrbitState = (z: ℂ, c: ℂ)
+func orbitS(state: inout OrbitState) -> ℂ? {
+    let (z, c) = state
+    guard z.isPotentiallyInSet() else {return nil}
+    state.z = z * z + c
+    return z
+}
+
+func mandelbrotSS(_ c: ℂ) -> Int {
+    return sequence(state: (ℂ(0), c), next: orbitS).prefix(maxIter).count()
+}
+
+func mandelbrotSS__s(_ c: ℂ) -> Int {
+    return sequence(state: (ℂ(0), c), next: orbitS).__prefix_(maxIter).count()
+}
+
+func mandelbrotSS__i(_ c: ℂ) -> Int {
+    return sequence(state: (ℂ(0), c), next: orbitS)._prefix(maxIter).count()
+}
+
+func mandelbrotSS__sd(_ c: ℂ) -> Int {
+    return sequence(state: (ℂ(0), c), next: orbitS).__prefix(maxIter).count()
+}
+
+func mandelbrotSS__a(_ c: ℂ) -> Int {
+    return sequence(state: (ℂ(0), c), next: orbitS).___prefix(maxIter).count()
+}
+
+func mandelbrotSSAI(_ c: ℂ) -> Int {
+    return sequence(state: (ℂ(0), c), next: orbitS).prefixAI(maxIter).count()
+}
+
+func mandelbrotSSL(_ c: ℂ) -> Int {
+    return sequence(state: (ℂ(0), c), next: orbitS).lazy.prefixL(maxIter).count()
 }
 
 
@@ -152,20 +300,42 @@ let phiThing: (ℂ) -> Int = julia(ℂ(1 - 1.6180339887498948482))
 
 let allRenderers =
     [("imperative                      ", imperative)]
-//    + [
-//        ("douadysRabbit                   ", douadysRabbit),
-//       ("siegelDisk                      ", siegelDisk),
-//       ("sanMarco                        ", sanMarco),
-//       ("phiThing                        ", phiThing),
-//       ("imperativeJulia                 ", imperativeJulia)]
-    + [("mandelbrot                      ", mandelbrot),
-       ("mandelbrot_                     ", mandelbrot_),
-       ("mandelbrot__                    ", mandelbrot__)]
-    + swiftyFused
-    + swiftyCustom
-    + swiftyComposed
-//    + functional
-    + [("imperative'                     ", imperative)]
+//        + [
+//            ("douadysRabbit                   ", douadysRabbit),
+//            ("siegelDisk                      ", siegelDisk),
+//            ("sanMarco                        ", sanMarco),
+//            ("phiThing                        ", phiThing),
+//            ("imperativeJulia                 ", imperativeJulia)]
+        + [
+            ("mandelbrot                      ", mandelbrot),
+            ("mandelbrot_                     ", mandelbrot_),
+            ("mandelbrotL                     ", mandelbrotL),
+            ("mandelbrotE                     ", mandelbrotE),
+            ("mandelbrot__i                   ", mandelbrot__i),
+            ("mandelbrot__sd                  ", mandelbrot__sd),
+            ("mandelbrot__s                   ", mandelbrot__s),
+            ("mandelbrot__a                   ", mandelbrot__a),
+            ("mandelbrotAI                    ", mandelbrotAI),
+            ("mandelbrotS                     ", mandelbrotS),
+            ("mandelbrotS__i                  ", mandelbrotS__i),
+            ("mandelbrotS__sd                 ", mandelbrotS__sd),
+            ("mandelbrotS__s                  ", mandelbrotS__s),
+            ("mandelbrotS__a                  ", mandelbrotS__a),
+            ("mandelbrotSAI                   ", mandelbrotSAI),
+            ("mandelbrotSL                    ", mandelbrotSL),
+            ("mandelbrotSS                    ", mandelbrotSS),
+            ("mandelbrotSS__i                 ", mandelbrotSS__i),
+            ("mandelbrotSS__sd                ", mandelbrotSS__sd),
+            ("mandelbrotSS__s                 ", mandelbrotSS__s),
+            ("mandelbrotSS__a                 ", mandelbrotSS__a),
+            ("mandelbrotSSAI                  ", mandelbrotSSAI),
+            ("mandelbrotSSL                   ", mandelbrotSSL),
+            ]
+        + swiftyFused
+        + swiftyCustom
+        + swiftyComposed
+        + functional
+        + [("imperative'                     ", imperative)]
 
 timeLoops(allRenderers)
 

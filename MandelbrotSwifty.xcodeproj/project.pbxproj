@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9809A57C1E56F1F10082AC10 /* EnumeratedSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9809A57B1E56F1F10082AC10 /* EnumeratedSequence.swift */; };
+		981ED23F20A4599700D5D263 /* transducers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981ED23E20A4599700D5D263 /* transducers.swift */; };
 		9834A45D1E5BB69100DA7AB5 /* ComplexNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834A45C1E5BB69100DA7AB5 /* ComplexNumber.swift */; };
 		9834A45F1E5BB6C500DA7AB5 /* LazyPrefixWhile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834A45E1E5BB6C500DA7AB5 /* LazyPrefixWhile.swift */; };
 		9834A4611E5BB71200DA7AB5 /* prelude.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834A4601E5BB71200DA7AB5 /* prelude.swift */; };
@@ -20,6 +21,7 @@
 		98AFA0651E606B2400C9AE29 /* swiftyFused.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AFA0641E606B2400C9AE29 /* swiftyFused.swift */; };
 		98B739E01E55EE8B00A26726 /* testInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B739DF1E55EE8B00A26726 /* testInputs.swift */; };
 		98E51AF31E56593F00EFAA61 /* DropFirstSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E51AF21E56593F00EFAA61 /* DropFirstSequence.swift */; };
+		98E691A820C02CFE00BC253B /* LazyPrefix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E691A720C02CFE00BC253B /* LazyPrefix.swift */; };
 		98F2384A1E3F35FA00F006EB /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F238491E3F35FA00F006EB /* main.swift */; };
 		98FD2C4D1E5CC9C6007627DE /* functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FD2C4C1E5CC9C6007627DE /* functional.swift */; };
 		98FD2C4F1E5CD098007627DE /* swiftyCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FD2C4E1E5CD098007627DE /* swiftyCustom.swift */; };
@@ -43,6 +45,7 @@
 		9809A57E1E56F2770082AC10 /* Core Sequences.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Core Sequences.playground"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		9809A57F1E56F2770082AC10 /* Mandelbrot Hashell-like.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Mandelbrot Hashell-like.playground"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		9809A5801E56F2770082AC10 /* Mandelbrot Swifty3.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Mandelbrot Swifty3.playground"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		981ED23E20A4599700D5D263 /* transducers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = transducers.swift; sourceTree = "<group>"; };
 		9834A45C1E5BB69100DA7AB5 /* ComplexNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplexNumber.swift; sourceTree = "<group>"; };
 		9834A45E1E5BB6C500DA7AB5 /* LazyPrefixWhile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyPrefixWhile.swift; sourceTree = "<group>"; };
 		9834A4601E5BB71200DA7AB5 /* prelude.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = prelude.swift; sourceTree = "<group>"; };
@@ -56,8 +59,9 @@
 		98AFA0621E606AEA00C9AE29 /* swiftyComposed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = swiftyComposed.swift; sourceTree = "<group>"; };
 		98AFA0641E606B2400C9AE29 /* swiftyFused.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = swiftyFused.swift; sourceTree = "<group>"; };
 		98B739DF1E55EE8B00A26726 /* testInputs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = testInputs.swift; sourceTree = "<group>"; };
-		98BD42821E7FFECF0019DD91 /* Benchmark.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Benchmark.playground; sourceTree = "<group>"; };
+		98BD42821E7FFECF0019DD91 /* Benchmark.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Benchmark.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		98E51AF21E56593F00EFAA61 /* DropFirstSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropFirstSequence.swift; sourceTree = "<group>"; };
+		98E691A720C02CFE00BC253B /* LazyPrefix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyPrefix.swift; sourceTree = "<group>"; };
 		98E8D7391E792F71003275FE /* Sequence Composed.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Sequence Composed.playground"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		98F238461E3F35FA00F006EB /* MandelbrotSwifty */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MandelbrotSwifty; sourceTree = BUILT_PRODUCTS_DIR; };
 		98F238491E3F35FA00F006EB /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -106,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				98F238491E3F35FA00F006EB /* main.swift */,
+				9834A45C1E5BB69100DA7AB5 /* ComplexNumber.swift */,
 				98FD2C4C1E5CC9C6007627DE /* functional.swift */,
 				98FD2C4E1E5CD098007627DE /* swiftyCustom.swift */,
 				98AFA0621E606AEA00C9AE29 /* swiftyComposed.swift */,
@@ -119,8 +124,9 @@
 				984030B41E564C52004711F4 /* PrefixSequence.swift */,
 				98A458A91E56EAA10099C714 /* PrefixWhile.swift */,
 				989285DD1E55EF38008C015B /* Zip2Sequence.swift */,
-				9834A45C1E5BB69100DA7AB5 /* ComplexNumber.swift */,
 				9834A45E1E5BB6C500DA7AB5 /* LazyPrefixWhile.swift */,
+				98E691A720C02CFE00BC253B /* LazyPrefix.swift */,
+				981ED23E20A4599700D5D263 /* transducers.swift */,
 			);
 			path = MandelbrotSwifty;
 			sourceTree = "<group>";
@@ -152,7 +158,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Pavol Vaskovic";
 				TargetAttributes = {
 					98F238451E3F35FA00F006EB = {
@@ -195,7 +201,9 @@
 				98A458AA1E56EAA10099C714 /* PrefixWhile.swift in Sources */,
 				98AFA0651E606B2400C9AE29 /* swiftyFused.swift in Sources */,
 				98F2384A1E3F35FA00F006EB /* main.swift in Sources */,
+				981ED23F20A4599700D5D263 /* transducers.swift in Sources */,
 				98B739E01E55EE8B00A26726 /* testInputs.swift in Sources */,
+				98E691A820C02CFE00BC253B /* LazyPrefix.swift in Sources */,
 				989285DE1E55EF38008C015B /* Zip2Sequence.swift in Sources */,
 				9809A57C1E56F1F10082AC10 /* EnumeratedSequence.swift in Sources */,
 				984030B51E564C52004711F4 /* PrefixSequence.swift in Sources */,
@@ -219,6 +227,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -226,6 +235,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -273,6 +283,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -280,6 +291,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

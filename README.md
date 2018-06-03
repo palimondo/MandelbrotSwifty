@@ -4,6 +4,7 @@ This is an exploration of the performance of various semantically equivalent exp
 ## Tags
 
 * [swift-3.1 from May 2017](https://github.com/palimondo/MandelbrotSwifty/tree/swift-3.1/) - The state of experiment that compiled with Swift 3.1.
+* [troubling-sequence, form June 2018](https://github.com/palimondo/MandelbrotSwifty/tree/troubling-sequence/) - The state of experiment as of writing [Troubling `Sequence`](https://forums.swift.org/t/troubling-sequence/13130) in Swift Forums.
 
 ## ToDo
 * ✅<del>Migrate to Swift 4</del>
